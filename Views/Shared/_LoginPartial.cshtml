@@ -1,0 +1,48 @@
+﻿@using Assignment_CS5.Models
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions
+@using Assignment_CS5.Constants
+
+@{
+    string userName = Context.Session.GetString(SessionKey.Employee.UserName);
+}
+@{
+    string fullName = Context.Session.GetString(SessionKey.Employee.FullName);
+}
+@{
+    string role = Context.Session.GetString(SessionKey.Employee.Role);
+}
+
+<ul class="navbar-nav">
+    @if (userName != null && userName != "")
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-light">Hello, @fullName</a>
+        </li>
+
+        @if(role == "Admin")
+        {
+            <li class="nav-item">
+                <form asp-area="" class="mt-2"  asp-controller="Admin" asp-action="Logout" method="post" id="logoutForm">
+                    <button id="logout" type="submit" class="btn btn-primary ml-xl-4">Logout</button>
+                </form>
+            </li>
+        } else
+        {
+            <li class="nav-item  ">
+                <form class="mt-2" asp-area="" asp-controller="Customer" asp-action="Logout" method="post" id="logoutForm">
+                    <button id="logout" type="submit" class="btn btn-primary ml-xl-4">Logout</button>
+                </form>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="nav-item">
+             <a class="nav-link" href="#">Sign Up</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary ml-xl-4 " id="login" href="/Customer/Login">Login</a>
+        </li>
+    }
+</ul>

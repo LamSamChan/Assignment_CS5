@@ -1,0 +1,98 @@
+﻿@model Assignment_CS5.Models.Employee
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<div class="form-body" style="margin-top:140px">
+    <div>
+        <div class="form-holder">
+            <div class="form-content justify-content-center">
+                <div class="form-items">
+                    <h3>Edit Employee</h3>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-@TempData["MessageType"]" role="alert">
+                            @TempData["Message"]
+                        </div>
+                    }
+                    <form asp-action="Update" asp-controller="Employee" method="post" enctype="multipart/form-data">
+                        <div class="col-md-12">
+                            <div class="row justify-content-center m-3"><img src="~/images/avatars/@Model.Image" class="img-thumbnail img-150" /></div>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="EmployeeID" required readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="UserName" placeholder="User name" required readonly>
+                            <span class="text-danger" asp-validation-for="UserName"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="FullName" placeholder="Full name" required>
+                            <span class="text-danger" asp-validation-for="FullName"></span>
+                        </div>
+                        <div class="col-md-12 mt-3 ">
+                            <input class="form-control bg-light text-dark" asp-for="Email" placeholder="Email" required>
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <select asp-for="Position" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Position>()" required>
+                                <option value="" disabled selected>...Select position</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Position"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <select asp-for="Gender" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Gender>()" required>
+                                <option value="" disabled selected>...Select gender</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Gender"></span>
+                        </div>
+                        <div class="col-md-12  mt-3">
+                            <input class="form-control bg-light text-dark" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required>
+                            <span class="text-danger" asp-validation-for="DateOfBirth"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="PhoneNumber" placeholder="Phone number" required>
+                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label">Image</label>
+                            <input class="form-control bg-light text-dark" asp-for="ImageFile" placeholder="Image" type="file" accept="image/*" multiple="multiple" >
+                            <span class="text-danger" asp-validation-for="ImageFile"></span>
+                        </div>
+                        <div class="d-none">
+                            <div class="col-md-12">
+                                <input class="form-control" asp-for="Password" placeholder="Password" id="Password" name="Password" value="@Model.Password">
+                                <span class="text-danger" asp-validation-for="Password"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <input class="form-control" asp-for="ConfirmPassword" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" value="@Model.Password">
+                                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <textarea class="form-control" asp-for="Note" placeholder="Note"></textarea>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="mb-3 mr-1" asp-for="Locked">Status: </label>
+                            <input type="checkbox" class="btn-check" asp-for="Locked" id="Locked" value="true" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-secondary" for="Locked">Locked</label>
+                        </div>
+                        <div class="form-button mt-3">
+                            <button id="submit" type="submit" class="btn btn-success">Save</button>
+                        </div>
+
+                        @Html.ValidationSummary()
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

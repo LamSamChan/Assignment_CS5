@@ -1,0 +1,20 @@
+﻿@using Assignment_CS5.Models
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions
+@using Assignment_CS5.Constants
+@{
+    string userName = Context.Session.GetString(SessionKey.Employee.UserName);
+}
+@{
+    string role = Context.Session.GetString(SessionKey.Employee.Role);
+}
+@if((userName != null && userName != "") && role == "Admin")
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+        <div class="dropdown-menu">
+            <a class="nav-link dropdown-item" asp-controller="Menu" asp-action="Index">Menu</a>
+            <a class="nav-link dropdown-item" asp-controller="Employee" asp-action="Index">Employee</a>
+        </div>
+    </li>
+}
