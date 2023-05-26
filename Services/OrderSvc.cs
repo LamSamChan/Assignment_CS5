@@ -32,7 +32,7 @@ namespace Assignment_CS5.Services
 			return status;
 		}
 
-		public PaginationViewModel GetAll(string type,string searchString, int page)
+		public PaginationViewModel GetAll(string type,string searchString, DateTime orderDate, int page)
 		{
 			var list = _context.Orders.OrderByDescending(x => x.OrderDate)
 				.Include(x => x.Customer)
@@ -62,6 +62,8 @@ namespace Assignment_CS5.Services
 					{
 						SearchKeyword = searchString,
 						CurrentPage = page,
+						type=type,
+						SearchDate = orderDate,
 						PageSize = pageSize,
 						TotalItems = list.Count()
 					}

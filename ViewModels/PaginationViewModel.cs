@@ -18,6 +18,8 @@ namespace Assignment_CS5.ViewModels
         public int PageSize { get; set; }
         public int TotalItems { get; set; }
         public string? SearchKeyword { get; set; }
+        public DateTime? SearchDate { get; set; }
+        public string type { get; set; }
         public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
     }
 }

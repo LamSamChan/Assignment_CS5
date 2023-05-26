@@ -45,6 +45,9 @@ namespace Assignment_CS5.Models
         [StringLength(250)]
         [Display(Name ="Note")]
         public string Note { get; set; }
+
+        [Display(Name = "Delete")]
+        public bool Delete { get; set; }
         public Customer Customer { get; set; }
         public ICollection<OrderDetails> OrderDetails { get;}
 
