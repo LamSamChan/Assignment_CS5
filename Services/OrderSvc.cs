@@ -3,6 +3,7 @@ using Assignment_CS5.IServices;
 using Assignment_CS5.Models;
 using Assignment_CS5.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Drawing;
 
 namespace Assignment_CS5.Services
@@ -32,7 +33,7 @@ namespace Assignment_CS5.Services
 			return status;
 		}
 
-		public PaginationViewModel GetAll(string type,string searchString, DateTime orderDate, int page)
+		public PaginationViewModel GetAll(string type,string searchString, DateTime searchDate, int page)
 		{
 			var list = _context.Orders.OrderByDescending(x => x.OrderDate)
 				.Include(x => x.Customer)
@@ -44,11 +45,29 @@ namespace Assignment_CS5.Services
 				{
 					if(type == "PN")
 					{
-						list = list.Where(p => p.Customer.PhoneNumber.Contains(searchString.ToLower())).ToList();
+						if (!string.IsNullOrEmpty(searchDate.ToString()))
+						{
+                            list = list.Where(p => p.Customer.PhoneNumber.Contains(searchString.ToLower()) 
+							&& p.OrderDate.ToString().Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+						}
+						else
+						{
+                            list = list.Where(p => p.Customer.PhoneNumber.Contains(searchString.ToLower())).ToList();
+                        }
+						
 					}
 					else
 					{
-						list = list.Where(p => p.Customer.CustomerID.ToString().Contains(searchString.ToLower())).ToList();
+                        if (!string.IsNullOrEmpty(searchDate.ToString()))
+                        {
+                            list = list.Where(p => p.Customer.CustomerID.ToString().Contains(searchString.ToLower())
+                            && p.OrderDate.ToString().Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+                        }
+                        else
+                        {
+                            list = list.Where(p => p.Customer.CustomerID.ToString().Contains(searchString.ToLower())).ToList();
+                        }
+                       
 					}
 					
 				}
@@ -63,7 +82,7 @@ namespace Assignment_CS5.Services
 						SearchKeyword = searchString,
 						CurrentPage = page,
 						type=type,
-						SearchDate = orderDate,
+						SearchDate = searchDate,
 						PageSize = pageSize,
 						TotalItems = list.Count()
 					}

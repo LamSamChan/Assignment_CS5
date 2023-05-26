@@ -46,6 +46,10 @@
                             <td>@item.Status</td>
                             <td>@item.Note</td>
                             <td><input type="checkbox" checked="@item.Delete" disabled style="height: 20px; width: 20px;"></td>
+                            <td>
+@*                                <a class="nav-link link-danger link-edit m-0" asp-action="Delete" asp-controller="Menu" asp-route-Id="@item.ProductId">...</a>
+*@                            <partial name="_OrderDetailPartial" for="@Model.OrderDetails"></partial>
+</td>
                         </tr>
 
                     }
@@ -70,12 +74,12 @@
         <div class="pagination">
             @if (currentPage > 1)
             {
-                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, orderDate =Model.PaginationInfo.SearchDate, page = 1 })">First</a>
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = 1 })">First</a>
             }
 
             @if (startPage > 1)
             {
-                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new { type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, orderDate =Model.PaginationInfo.SearchDate,page = startPage - 1 })">...</a>
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new { type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate,page = startPage - 1 })">...</a>
             }
 
             @for (int i = startPage; i <= endPage; i++)
@@ -86,18 +90,18 @@
                 }
                 else
                 {
-                    <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, orderDate =Model.PaginationInfo.SearchDate, page = i })">@i</a>
+                    <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = i })">@i</a>
                 }
             }
     
            @if (endPage < totalPages)
             {
-                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, orderDate =Model.PaginationInfo.SearchDate, page = endPage + 1 })">...</a>
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = endPage + 1 })">...</a>
             }
     
             @if (currentPage < totalPages)
             {
-                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, orderDate =Model.PaginationInfo.SearchDate, page = totalPages })">Last</a>
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {type=Model.PaginationInfo.type, searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = totalPages })">Last</a>
             }
         </div>
     </div>
