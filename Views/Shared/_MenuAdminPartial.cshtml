@@ -11,10 +11,12 @@
 @if((userName != null && userName != "") && role == "Admin")
 {
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
         <div class="dropdown-menu">
             <a class="nav-link dropdown-item" asp-controller="Menu" asp-action="Index">Menu</a>
             <a class="nav-link dropdown-item" asp-controller="Employee" asp-action="Index">Employee</a>
+            <a class="nav-link dropdown-item" asp-controller="Customer" asp-action="Index">Customer</a>
+            <a class="nav-link dropdown-item" asp-controller="Order" asp-action="Index">Order</a>
         </div>
     </li>
 }
