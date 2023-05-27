@@ -56,7 +56,6 @@ namespace Assignment_CS5.Services
                     {
                         SearchKeyword = searchString,
                         CurrentPage = page,
-                        type = type,
                         PageSize = pageSize,
                         TotalItems = list.Count()
                     }
