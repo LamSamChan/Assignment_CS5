@@ -65,19 +65,9 @@ namespace Assignment_CS5.Controllers
 
 
 
-        // GET: Menu/Create
         public IActionResult Create()
         {
-            if (IsAdmin)
-            {
-                ViewBag.SHClass = "d-none";
-                ViewBag.bgblack = "bg-black";
                 return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
         }
 
         // POST: Menu/Create
@@ -91,8 +81,26 @@ namespace Assignment_CS5.Controllers
             {
                 try
                 {
-                    _service.AddCustomer(customer);
-                    return RedirectToAction("Index");
+                    int check = _service.AddCustomer(customer);
+                    if (check == -1)
+                    {
+                        TempData["Message"] = "Email already exists, try 1 different email.";
+                        TempData["MessageType"] = "danger";
+                        ViewBag.SHClass = "d-none";
+                        ViewBag.bgblack = "bg-black";
+                        return View("Create");
+                    }
+                    else if(check == -1){
+                        TempData["Message"] = "Phone number already exists, try 1 different phone number.";
+                        TempData["MessageType"] = "danger";
+                        ViewBag.SHClass = "d-none";
+                        ViewBag.bgblack = "bg-black";
+                        return View("Create");
+                    }
+                    else {
+                        return RedirectToAction("Index");
+                    }
+                   
                 }
                 catch
                 {

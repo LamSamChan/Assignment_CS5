@@ -96,17 +96,16 @@ namespace Assignment_CS5.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Order order)
         {
-            Order existingOrder = _service.GetById(order.OrderId);
             if (ModelState.IsValid)
             {
-                _service.AddOrder(order);
+                _service.UpdateOrder(order);
                 return RedirectToAction("Index");
             }
             else
             {
                 TempData["Message"] = "An error occurred";
                 TempData["MessageType"] = "danger";
-                return View("Edit", existingOrder);
+                return View("Edit", order);
             }
         }
 
@@ -124,5 +123,18 @@ namespace Assignment_CS5.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
+        public IActionResult Details(int Id)
+        {
+            if (IsAdmin)
+            {
+                return View(_service.GetOrderDetails(Id));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
     }
 }

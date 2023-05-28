@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Assignment_CS5.Models.OrderDetails>
+
+
+<div style="margin-top:155px">
+
+    <div class="row m-5">
+        
+            <table class="table text-light mt-5">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Note</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrderDetailId</td>
+                            <td><img src="~/images/products/@item.Menu.Image" class="img-thumbnail img-150" /></td>
+                            <td>@item.Menu.Name</td>
+                            <td>@item.Menu.Price</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Total</td>
+                            <td>@item.Note</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        
+    </div>
+</div>

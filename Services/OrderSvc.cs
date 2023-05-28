@@ -5,6 +5,7 @@ using Assignment_CS5.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Drawing;
+using static Assignment_CS5.Constants.SessionKey;
 
 namespace Assignment_CS5.Services
 {
@@ -144,5 +145,18 @@ namespace Assignment_CS5.Services
 			}
 			return status;
 		}
-	}
+
+		public List<OrderDetails> GetOrderDetails(int id)
+		{
+			List<OrderDetails> details = new List<OrderDetails>();
+			foreach (var item in _context.OrderDetails.Include(x => x.Menu).Include(x => x.Order).ToList())
+			{
+				if (item.OrderId == id)
+				{
+					details.Add(item);
+				}
+			}
+			return details;
+		}
+    }
 }

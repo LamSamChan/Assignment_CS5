@@ -12,6 +12,9 @@ var connectionString = builder.Configuration.GetConnectionString("connection");
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddTransient<IMenuSvc,MenuSvc>();
 builder.Services.AddTransient<IEmployeeSvc, EmployeeSvc>();
+builder.Services.AddTransient<ICustomerSvc, CustomerSvc>();
+builder.Services.AddTransient<IOrderSvc, OrderSvc>();
+
 builder.Services.AddTransient<IUploadHelper, UploadHelper>();
 builder.Services.AddTransient<IEncodeHelper, EncodeHelper>();
 builder.Services.AddDistributedMemoryCache(); // Đăng ký dv lưu cache trong bộ nhớ

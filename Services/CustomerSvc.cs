@@ -23,10 +23,18 @@ namespace Assignment_CS5.Services
             int status = 0;
             try
             {
-                customer.Password = _EncodeHelper.Encode(customer.Password);
-                _context.Add(customer);
-                _context.SaveChanges();
-                status = customer.CustomerID;
+                if (IsFieldExist(customer) != 0)
+                {
+                    return IsFieldExist(customer);
+                }
+                else
+                {
+                    customer.Password = _EncodeHelper.Encode(customer.Password);
+                    _context.Add(customer);
+                    _context.SaveChanges();
+                    status = customer.CustomerID;
+                }
+                
             }
             catch
             {
@@ -128,6 +136,22 @@ namespace Assignment_CS5.Services
                 status = 0;
             }
             return status;
+        }
+        public int IsFieldExist(Models.Customer customer)
+        {
+            foreach (var cus in _context.Customer.ToList())
+            {
+                 if (customer.Email == cus.Email)
+                {
+                    return -1;
+                }
+                else if (customer.PhoneNumber == cus.PhoneNumber)
+                {
+                    return -2;
+                }
+            }
+
+            return 0;
         }
     }
 }

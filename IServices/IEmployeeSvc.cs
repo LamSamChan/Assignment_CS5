@@ -10,5 +10,6 @@ namespace Assignment_CS5.IServices
         public int AddEmployee(Employee employee);
         public int UpdateEmployee(Employee employee);
         public Employee Login (ViewLogin viewLogin);
+        public int IsFieldExist(Employee employee);
     }
 }

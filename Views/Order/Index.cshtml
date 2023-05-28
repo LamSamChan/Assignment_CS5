@@ -32,24 +32,23 @@
                         <th>Status</th>
                         <th>Note</th>
                         <th>Delete</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Orders)
                     {
-
                         <tr>
                             <td><a class="nav-link link-dark link-edit m-0" asp-action="Edit" asp-controller="Order" asp-route-Id="@item.OrderId">@item.OrderId</a></td>
                             <td>@item.Customer.FullName</td>
-                            <td>@item.OrderDate</td>
+                            <td>@item.OrderDate.ToString("hh:mm:ss dd/MM/yyyy")</td>
                             <td>@String.Format("{0:0,0 vnđ}", item.Total)</td>
                             <td>@item.Status</td>
                             <td>@item.Note</td>
                             <td><input type="checkbox" checked="@item.Delete" disabled style="height: 20px; width: 20px;"></td>
                             <td>
-@*                                <a class="nav-link link-danger link-edit m-0" asp-action="Delete" asp-controller="Menu" asp-route-Id="@item.ProductId">...</a>
-*@                            <partial name="_OrderDetailPartial" for="@Model.OrderDetails"></partial>
-</td>
+                            <a class="nav-link link-danger link-edit m-0" style="height: 50px; width: 50px;" asp-action="Details" asp-controller="Order" asp-route-Id="@item.OrderId">...</a>
+                            </td>
                         </tr>
 
                     }

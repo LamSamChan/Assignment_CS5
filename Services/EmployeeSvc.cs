@@ -24,10 +24,17 @@ namespace Assignment_CS5.Services
             int status = 0;
             try
             {
-                employee.Password = _helper.Encode(employee.Password);
-                _context.Add(employee);
-                _context.SaveChanges();
-                status = employee.EmployeeID;
+                if(IsFieldExist(employee) != 0)
+                {
+                    return IsFieldExist(employee);
+                }
+                else
+                {
+                    employee.Password = _helper.Encode(employee.Password);
+                    _context.Add(employee);
+                    _context.SaveChanges();
+                    status = employee.EmployeeID;
+                }
             }
             catch
             {
@@ -135,5 +142,25 @@ namespace Assignment_CS5.Services
             return login;
         }
 
+        public int IsFieldExist(Employee employee)
+        {
+            foreach (var emp in _context.Employees.ToList())
+            {
+                if (employee.UserName == emp.UserName)
+                {
+                    return -1;
+                }
+                else if(employee.Email == emp.Email)
+                {
+                    return -2;
+                }
+                else if (employee.PhoneNumber == emp.PhoneNumber)
+                {
+                    return -3;
+                }
+            }
+
+            return 0;
+        }
 	}
 }

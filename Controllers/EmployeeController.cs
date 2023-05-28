@@ -104,8 +104,36 @@ namespace Assignment_CS5.Controllers
                                 employee.Image = employee.ImageFile.FileName;
                             }
                         }
-                        _service.AddEmployee(employee);
-                        return RedirectToAction("Index");
+                        int check = _service.AddEmployee(employee);
+                        if (check == -1)
+                        {
+                            TempData["Message"] = "Username already exists, try 1 different name";
+                            TempData["MessageType"] = "danger";
+                            ViewBag.SHClass = "d-none";
+                            ViewBag.bgblack = "bg-black";
+                            return View("Create");
+                        }
+                        else if(check == -2)
+                        {
+                            TempData["Message"] = "Email already exists, try 1 different email";
+                            TempData["MessageType"] = "danger";
+                            ViewBag.SHClass = "d-none";
+                            ViewBag.bgblack = "bg-black";
+                            return View("Create");
+                        }
+                        else if (check == -3)
+                        {
+                            TempData["Message"] = "Phone number already exists, try 1 different phone number";
+                            TempData["MessageType"] = "danger";
+                            ViewBag.SHClass = "d-none";
+                            ViewBag.bgblack = "bg-black";
+                            return View("Create");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                       
                     }
                     else
                     {
