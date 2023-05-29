@@ -8,7 +8,7 @@
 @{
     string role = Context.Session.GetString(SessionKey.Employee.Role);
 }
-@if((userName != null && userName != "") && role == "Admin")
+@if(userName != null  && (role == "Admin" || role =="Employee"))
 {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>

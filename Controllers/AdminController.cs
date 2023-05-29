@@ -42,7 +42,8 @@ namespace Assignment_CS5.Controllers
 				{
 					HttpContext.Session.SetString(SessionKey.Employee.UserName, emp.UserName);
 					HttpContext.Session.SetString(SessionKey.Employee.FullName, emp.FullName);
-					if (emp.Position.Equals(1))
+
+                    if (emp.Position.ToString() == "Manager")
 					{
                         HttpContext.Session.SetString(SessionKey.Employee.Role, "Admin");
 					}
