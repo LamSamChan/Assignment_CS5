@@ -43,16 +43,29 @@ namespace Assignment_CS5.Services
             return status;
         }
 
-        public PaginationViewModel GetAll(string searchString, int page)
+        public PaginationViewModel GetAll(string type,string searchString, int page)
         {
             var list = _context.Employees.ToList();
             try
             {
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    list = list.Where(p => p.FullName.ToLower().Contains(searchString.ToLower()) || 
-                    p.PhoneNumber.ToLower().Contains(searchString.ToLower()) ||
-                    p.Email.ToLower().Contains(searchString.ToLower())).ToList();
+                    if (type == "ID")
+                    {
+                        list = list.Where(c => c.EmployeeID.ToString().Contains(searchString.ToLower())).ToList();
+                    }
+                    else if (type == "FN")
+                    {
+                        list = list.Where(c => c.FullName.ToLower().Contains(searchString.ToLower())).ToList();
+                    }
+                    else if (type == "PN")
+                    {
+                        list = list.Where(c => c.PhoneNumber.Contains(searchString.ToLower())).ToList();
+                    }
+                    else
+                    {
+                        list = list.Where(c => c.Email.Contains(searchString.ToLower())).ToList();
+                    }
                 }
                 int pageSize = 5;
                 var pagedEmployees = list.Skip((page - 1) * pageSize).Take(pageSize); // Lấy các sản phẩm cho trang hiện tại
@@ -120,8 +133,6 @@ namespace Assignment_CS5.Services
                 if (employee.Password == null) {
                     existingEmp.Password = existingEmp.Password;
                 }
-               
-
 
                 // Lưu thay đổi vào database
                 _context.SaveChanges();

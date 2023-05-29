@@ -47,14 +47,14 @@ namespace Assignment_CS5.Controllers
 
         // GET: Menu
         [HttpGet]
-        public IActionResult Index(string searchString, int page)
+        public IActionResult Index(string type, string searchString, int page)
         {
 
             if (IsAdmin)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
-                return View(_service.GetAll(searchString, page));
+                return View(_service.GetAll(type, searchString, page));
             }
             else
             {
@@ -136,6 +136,8 @@ namespace Assignment_CS5.Controllers
             {
                 TempData["Message"] = "An error occurred";
                 TempData["MessageType"] = "danger";
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
                 return View("Edit", customer);
             }
         }

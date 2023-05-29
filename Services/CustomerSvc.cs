@@ -43,33 +43,46 @@ namespace Assignment_CS5.Services
             return status;
         }
 
-        public PaginationViewModel GetAll( string searchString, int page)
+        public PaginationViewModel GetAll(string type, string searchString, int page)
         {
             var list = _context.Customer.ToList();
             try
             {
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                        list = list.Where(p => p.PhoneNumber.Contains(searchString.ToLower())||
-                        p.FullName.Contains(searchString.ToLower()) ||
-                        p.CustomerID.ToString().Contains(searchString.ToLower())).ToList();
-                }
-                int pageSize = 5;
-                var pagedCustomer = list.Skip((page - 1) * pageSize).Take(pageSize); // Lấy các sản phẩm cho trang hiện tại
-
-                var viewModel = new PaginationViewModel
-                {
-                    Customers = pagedCustomer,
-                    PaginationInfo = new PaginationInfo
+                    if (type == "ID")
                     {
-                        SearchKeyword = searchString,
-                        CurrentPage = page,
-                        PageSize = pageSize,
-                        TotalItems = list.Count()
+                        list = list.Where(c => c.CustomerID.ToString().Contains(searchString.ToLower())).ToList();
                     }
-                };
-                return viewModel;
+                    else if (type == "FN")
+                    {
+                        list = list.Where(c => c.FullName.ToLower().Contains(searchString.ToLower())).ToList();
+                    }
+                    else if (type == "PN")
+                    {
+                        list = list.Where(c => c.PhoneNumber.Contains(searchString.ToLower())).ToList();
+                    }
+                    else
+                    {
+                        list = list.Where(c => c.Email.Contains(searchString.ToLower())).ToList();
+                    }
+                }
+                    int pageSize = 5;
+                    var pagedCustomer = list.Skip((page - 1) * pageSize).Take(pageSize); // Lấy các sản phẩm cho trang hiện tại
 
+                    var viewModel = new PaginationViewModel
+                    {
+                        Customers = pagedCustomer,
+                        PaginationInfo = new PaginationInfo
+                        {
+                            SearchKeyword = searchString,
+                            CurrentPage = page,
+                            type = type,
+                            PageSize = pageSize,
+                            TotalItems = list.Count()
+                        }
+                    };
+                    return viewModel;
             }
             catch (System.Exception ex)
             {

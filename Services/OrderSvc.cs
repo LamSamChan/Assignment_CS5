@@ -46,10 +46,10 @@ namespace Assignment_CS5.Services
 				{
 					if(type == "PN")
 					{
-						if (!string.IsNullOrEmpty(searchDate.ToString()))
+						if (searchDate.Year !=1)
 						{
                             list = list.Where(p => p.Customer.PhoneNumber.Contains(searchString.ToLower()) 
-							&& p.OrderDate.ToString().Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+							&& p.OrderDate.ToString("yyyy/MM/dd").Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
 						}
 						else
 						{
@@ -57,19 +57,31 @@ namespace Assignment_CS5.Services
                         }
 						
 					}
-					else
+					else if( type=="ID" )
 					{
-                        if (!string.IsNullOrEmpty(searchDate.ToString()))
+                        if (searchDate.Year != 1)
                         {
                             list = list.Where(p => p.Customer.CustomerID.ToString().Contains(searchString.ToLower())
-                            && p.OrderDate.ToString().Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+                            && p.OrderDate.ToString("yyyy/MM/dd").Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
                         }
                         else
                         {
                             list = list.Where(p => p.Customer.CustomerID.ToString().Contains(searchString.ToLower())).ToList();
                         }
-                       
+
 					}
+					else
+					{
+                        if (searchDate.Year != 1)
+                        {
+                            list = list.Where(p => p.OrderId.ToString().Contains(searchString.ToLower())
+                            && p.OrderDate.ToString("yyyy/MM/dd").Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+                        }
+                        else
+                        {
+                            list = list.Where(p => p.OrderId.ToString().Contains(searchString.ToLower())).ToList();
+                        }
+                    }
 					
 				}
 				int pageSize = 5;
@@ -128,13 +140,10 @@ namespace Assignment_CS5.Services
 					return 0;
 				}
 
-				// Cập nhật thông tin của đối tượng 
-				existingOrder.OrderId = order.OrderId;
-				existingOrder.CustomerId = order.CustomerId;
-				existingOrder.OrderDate = order.OrderDate;
-				existingOrder.Total = order.Total;
+				// Cập nhật thông tin của đối tượng
 				existingOrder.Status = order.Status;
 				existingOrder.Note = order.Note;
+				existingOrder.Delete = order.Delete;
 				// Lưu thay đổi vào database
 				_context.SaveChanges();
 				status = order.OrderId;

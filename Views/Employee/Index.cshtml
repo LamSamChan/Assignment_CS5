@@ -4,13 +4,21 @@
     ViewData["Title"] = "Employee management";
 }
 
-<div style="margin-top:155px">
+<div style="margin-top:170px">
 
     <div class="row m-5 justify-content-center">
         <form class="w-50" asp-action="Index" asp-controller="Employee" method="get">
             <div class="row w-100" style="height:50px;">
                 <div class="col-lg-3"> <a class="nav-link btn-outline-primary link-edit w-100 h-100 " asp-action="Create" asp-controller="Employee">Add <br /> Employee</a></div>
-                <div class="col-lg-6"><input class="w-100 h-100" type="text" name="searchString" placeholder="Enter a search keyword" /></div>
+                <div class="col-lg-3">
+                    <select class="text-dark w-100 h-100" name="type">
+                        <option value="ID">ID</option>
+                        <option value="FN">Full name</option>
+                        <option value="PN">Phone number</option>
+                        <option value="EM">Email</option>
+                    </select>
+                </div>
+                <div class="col-lg-3"><input class="w-100 h-100" type="text" name="searchString" placeholder="Enter a search keyword" /></div>
                 <div class="col-lg-3"> <button type="submit" class="btn-outline-primary link-edit w-100 h-100">Search</button></div>
             </div>
         </form>

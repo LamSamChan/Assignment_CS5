@@ -29,7 +29,7 @@ namespace Assignment_CS5.Models
         public int CustomerId { get; set; }
 
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "You need to select an order date")]
         [Display(Name = "Order date")]
         
@@ -44,12 +44,13 @@ namespace Assignment_CS5.Models
 
         [StringLength(250)]
         [Display(Name ="Note")]
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         [Display(Name = "Delete")]
-        public bool? Delete { get; set; }
-        public Customer Customer { get; set; }
-        public ICollection<OrderDetails> OrderDetails { get;}
+        public bool Delete { get; set; }
+        
+        public Customer? Customer { get; set; }
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
 
 
     }

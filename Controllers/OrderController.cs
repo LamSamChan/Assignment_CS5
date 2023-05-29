@@ -105,6 +105,8 @@ namespace Assignment_CS5.Controllers
             {
                 TempData["Message"] = "An error occurred";
                 TempData["MessageType"] = "danger";
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
                 return View("Edit", order);
             }
         }
@@ -116,6 +118,7 @@ namespace Assignment_CS5.Controllers
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
                 var order = _service.GetById(Id);
+                ViewBag.CustomerName = order.Customer.FullName;
                 return View(order);
             }
             else
@@ -128,6 +131,8 @@ namespace Assignment_CS5.Controllers
         {
             if (IsAdmin)
             {
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
                 return View(_service.GetOrderDetails(Id));
             }
             else

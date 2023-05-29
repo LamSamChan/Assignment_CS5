@@ -161,6 +161,8 @@ namespace Assignment_CS5.Controllers
                     }
                     else
                     {
+                        ViewBag.SHClass = "d-none";
+                        ViewBag.bgblack = "bg-black";
                         TempData["Message"] = "Please upload an image file of the product";
                         TempData["MessageType"] = "danger";
                         return View("Edit", existingProduct);
@@ -175,6 +177,8 @@ namespace Assignment_CS5.Controllers
             }
             else
             {
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
                 TempData["Message"] = "An error occurred";
                 TempData["MessageType"] = "danger";
                 return View("Edit", existingProduct);

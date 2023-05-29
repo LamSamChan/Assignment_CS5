@@ -15,21 +15,20 @@
                             @TempData["Message"]
                         </div>
                     }
-                    <form asp-action="Update" asp-controller="Order" method="post" >                      
+                    <form asp-action="Update" asp-controller="Order" method="post" >
                         <div class="col-md-12">
                             <input class="form-control bg-light text-dark" asp-for="OrderId" required readonly>
                         </div>
-                        <div class="col-md-12">
-                            <input class="form-control bg-light text-dark" asp-for="Customer.FullName" placeholder="User name" required readonly>
-                            <span class="text-danger" asp-validation-for="Customer.FullName"></span>
+                        <div class="col-md-12 mt-3">
+                            <input class="form-control bg-light text-dark" type="text" value="@ViewBag.CustomerName" readonly>
                         </div>
                         <div class="col-md-12  mt-3">
-                            <input class="form-control bg-light text-dark" type="date" asp-for="OrderDate" placeholder="Order Date" required>
+                            <input class="form-control bg-light text-dark" type="datetime-local" asp-for="OrderDate" placeholder="Order Date" required readonly>
                             <span class="text-danger" asp-validation-for="OrderDate"></span>
                         </div>
                         <div class="col-md-12 mt-3 ">
                             <label asp-for="Total"></label>
-                            <input class="form-control bg-light text-dark" asp-for="Total" placeholder="Price total" required>
+                            <input class="form-control bg-light text-dark" asp-for="Total" placeholder="Price total" required readonly>
                             <span class="text-danger" asp-validation-for="Total"></span>
                         </div>
                         <div class="col-md-12 mt-3">
@@ -42,7 +41,6 @@
                             <textarea class="form-control" asp-for="Note" placeholder="Note"></textarea>
                         </div>
                         <div class="col-md-12 mt-3">
-                            <label class="mb-3 mr-1" asp-for="Delete"> </label>
                             <input type="checkbox" class="btn-check" asp-for="Delete" id="Deleted" value="true" autocomplete="off">
                             <label class="btn btn-sm btn-outline-secondary" for="Deleted">Delete</label>
                         </div>

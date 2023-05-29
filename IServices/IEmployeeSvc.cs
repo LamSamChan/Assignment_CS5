@@ -5,7 +5,7 @@ namespace Assignment_CS5.IServices
 {
     public interface IEmployeeSvc
     {
-        public PaginationViewModel GetAll(string sreachString,int page);
+        public PaginationViewModel GetAll(string type, string sreachString,int page);
         public Employee GetById(int Id);
         public int AddEmployee(Employee employee);
         public int UpdateEmployee(Employee employee);
