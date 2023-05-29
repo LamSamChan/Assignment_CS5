@@ -30,7 +30,7 @@ namespace Assignment_CS5.Controllers
                     && HttpContext.Session.GetString(SessionKey.Employee.Role) != "Admin")
                 {
                     isAdmin = false;
-                }
+                } 
                 else
                 {
                     isAdmin = true;

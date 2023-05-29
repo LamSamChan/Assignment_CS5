@@ -20,7 +20,7 @@
             <a id="manage" class="nav-link text-light">Hello, @fullName</a>
         </li>
 
-        @if(role == "Admin")
+        @if(role == "Admin" || role=="Employee")
         {
             <li class="nav-item">
                 <form asp-area="" class="mt-2"  asp-controller="Admin" asp-action="Logout" method="post" id="logoutForm">

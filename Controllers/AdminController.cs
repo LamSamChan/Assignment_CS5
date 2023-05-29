@@ -42,7 +42,15 @@ namespace Assignment_CS5.Controllers
 				{
 					HttpContext.Session.SetString(SessionKey.Employee.UserName, emp.UserName);
 					HttpContext.Session.SetString(SessionKey.Employee.FullName, emp.FullName);
-					HttpContext.Session.SetString(SessionKey.Employee.Role, "Admin");
+					if (emp.Position.Equals(1))
+					{
+                        HttpContext.Session.SetString(SessionKey.Employee.Role, "Admin");
+					}
+					else
+					{
+                        HttpContext.Session.SetString(SessionKey.Employee.Role, "Employee");
+                    }
+					
 					HttpContext.Session.SetString(SessionKey.Employee.EmployeeContext,
 						JsonConvert.SerializeObject(emp));
 
