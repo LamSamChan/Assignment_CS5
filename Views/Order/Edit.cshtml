@@ -1,5 +1,64 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Assignment_CS5.Models.Order
 @{
+    ViewData["Title"] = "Edit Order";
+}
+
+<div class="form-body" style="margin-top:140px">
+    <div>
+        <div class="form-holder">
+            <div class="form-content justify-content-center">
+                <div class="form-items">
+                    <h3>Edit Order</h3>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-@TempData["MessageType"]" role="alert">
+                            @TempData["Message"]
+                        </div>
+                    }
+                    <form asp-action="Update" asp-controller="Order" method="post" >                      
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="OrderId" required readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="Customer.FullName" placeholder="User name" required readonly>
+                            <span class="text-danger" asp-validation-for="Customer.FullName"></span>
+                        </div>
+                        <div class="col-md-12  mt-3">
+                            <input class="form-control bg-light text-dark" type="date" asp-for="OrderDate" placeholder="Order Date" required>
+                            <span class="text-danger" asp-validation-for="OrderDate"></span>
+                        </div>
+                        <div class="col-md-12 mt-3 ">
+                            <label asp-for="Total"></label>
+                            <input class="form-control bg-light text-dark" asp-for="Total" placeholder="Price total" required>
+                            <span class="text-danger" asp-validation-for="Total"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <select asp-for="Status" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<OrderStatus>()" required>
+                                <option value="" disabled selected>...Select status</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Status"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <textarea class="form-control" asp-for="Note" placeholder="Note"></textarea>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="mb-3 mr-1" asp-for="Delete"> </label>
+                            <input type="checkbox" class="btn-check" asp-for="Delete" id="Deleted" value="true" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-secondary" for="Deleted">Delete</label>
+                        </div>
+                        <div class="form-button mt-3">
+                            <button id="submit" type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
