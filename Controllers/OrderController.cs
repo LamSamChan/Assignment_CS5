@@ -11,23 +11,29 @@ namespace Assignment_CS5.Controllers
     {
         private readonly MyDbContext _context;
         private readonly IOrderSvc _service;
-        private bool isAdmin;
-        public bool IsAdmin
+        private int isAuthenticate;
+        public int IsAuthenticate
         {
             get
             {
-                if (String.IsNullOrEmpty(HttpContext.Session.GetString(SessionKey.Employee.UserName))
-                    && HttpContext.Session.GetString(SessionKey.Employee.Role) != "Admin")
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString(SessionKey.Employee.UserName)))
                 {
-                    isAdmin = false;
+                    if (HttpContext.Session.GetString(SessionKey.Employee.Role) == "Admin")
+                    {
+                        isAuthenticate = 1; //Admin
+                    }
+                    else
+                    {
+                        isAuthenticate = 2; //Emp
+                    }
                 }
                 else
                 {
-                    isAdmin = true;
+                    isAuthenticate = 3;//Cus
                 }
-                return isAdmin;
+                return isAuthenticate;
             }
-            set { this.isAdmin = value; }
+            set { this.isAuthenticate = value; }
         }
         public OrderController(MyDbContext context, IOrderSvc service)
         {
@@ -36,8 +42,7 @@ namespace Assignment_CS5.Controllers
         }
         public IActionResult Index(string type, string searchString, DateTime searchDate, int page)
         {
-            
-            if (IsAdmin)
+            if (IsAuthenticate == 1 || IsAuthenticate == 2)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
@@ -50,16 +55,7 @@ namespace Assignment_CS5.Controllers
         }
         public IActionResult Create()
         {
-            if (IsAdmin)
-            {
-                ViewBag.SHClass = "d-none";
-                ViewBag.bgblack = "bg-black";
                 return View();
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,7 +109,7 @@ namespace Assignment_CS5.Controllers
 
         public IActionResult Edit(int Id)
         {
-            if (IsAdmin)
+            if (IsAuthenticate == 1 || IsAuthenticate ==2)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
@@ -129,7 +125,7 @@ namespace Assignment_CS5.Controllers
 
         public IActionResult Details(int Id)
         {
-            if (IsAdmin)
+            if (IsAuthenticate == 1 || IsAuthenticate == 2)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";

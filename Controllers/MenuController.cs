@@ -21,23 +21,29 @@ namespace Assignment_CS5.Controllers
         private readonly IMenuSvc _service;
         private readonly IUploadHelper _helper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private bool isAdmin;
-        public bool IsAdmin
+        private int isAuthenticate;
+        public int IsAuthenticate
         {
             get
             {
-                if (String.IsNullOrEmpty(HttpContext.Session.GetString(SessionKey.Employee.UserName)) 
-                    && HttpContext.Session.GetString(SessionKey.Employee.Role)!="Admin")
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString(SessionKey.Employee.UserName)))
                 {
-                    isAdmin = false;
+                    if (HttpContext.Session.GetString(SessionKey.Employee.Role) == "Admin")
+                    {
+                        isAuthenticate = 1; //Admin
+                    }
+                    else
+                    {
+                        isAuthenticate = 2; //Emp
+                    }
                 }
                 else
                 {
-                    isAdmin = true;
+                    isAuthenticate = 3;//Cus
                 }
-                return isAdmin;
+                return isAuthenticate;
             }
-            set { this.isAdmin = value; }
+            set { this.isAuthenticate = value; }
         }
         public MenuController(MyDbContext context, IMenuSvc service, IUploadHelper helper, IWebHostEnvironment webHostEnvironment)
         {
@@ -51,7 +57,7 @@ namespace Assignment_CS5.Controllers
         [HttpGet]
         public IActionResult Index(string searchString,int page)
         {
-            if (IsAdmin)
+            if (IsAuthenticate == 1 || IsAuthenticate == 2)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
@@ -59,18 +65,22 @@ namespace Assignment_CS5.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
         }
 
         // GET: Menu/Create
         public IActionResult Create()
         {
-            if (IsAdmin)
+            if (IsAuthenticate == 1)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
                 return View();
+            }
+            else if (IsAuthenticate == 2)
+            {
+                return RedirectToAction("Index", "Menu");
             }
             else
             {
@@ -187,23 +197,22 @@ namespace Assignment_CS5.Controllers
 
         public IActionResult Edit(int Id)
         {
-            if (IsAdmin)
+
+            if (IsAuthenticate == 1)
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
                 var productInMenu = _service.GetById(Id);
                 return View(productInMenu);
             }
+            else if (IsAuthenticate == 2)
+            {
+                return RedirectToAction("Index", "Menu");
+            }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        public IActionResult Delete(int Id)
-        {
-            _service.DeleteProduct(Id);
-            return RedirectToAction("Index");
         }
     }
 }

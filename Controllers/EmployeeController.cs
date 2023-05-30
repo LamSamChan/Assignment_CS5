@@ -231,7 +231,7 @@ namespace Assignment_CS5.Controllers
             }
             else if (IsAuthenticate == 2)
             {
-                return RedirectToAction("Index", "Emplyee");
+                return RedirectToAction("Index", "Employee");
             }
             else
             {

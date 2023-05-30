@@ -31,7 +31,7 @@
                             <span class="text-danger" asp-validation-for="Email"></span>
                         </div>
                         <div class="col-md-12 mt-3">
-                            <select asp-for="Position" class="mt-0  text-dark" asp-items="Html.GetEnumSelectList<Position>()" required>
+                            <select id="positionSelect" asp-for="Position" class="mt-0 text-dark" asp-items="Html.GetEnumSelectList<Position>()" required>
                                 <option value="" disabled selected>...Select position</option>
                             </select>
                             <span class="text-danger" asp-validation-for="Position"></span>
@@ -69,9 +69,10 @@
                         </div>
                         <div class="col-md-12 mt-3">
                             <label class="mb-3 mr-1" asp-for="Locked">Status: </label>
-                            <input type="checkbox" class="btn-check" asp-for="Locked" id="Locked" value="true" autocomplete="off">
-                            <label class="btn btn-sm btn-outline-secondary" for="Locked">Locked</label>
+                            <input type="checkbox" class="btn-check" asp-for="Locked" id="lockedCheckbox" value="true" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-secondary" for="lockedCheckbox">Locked</label>
                         </div>
+
                         <div class="form-button mt-3">
                             <button id="submit" type="submit" class="btn btn-success">Create</button>
                         </div>
