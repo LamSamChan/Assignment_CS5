@@ -15,7 +15,8 @@
 		{
 			public const string CusEmail = "CusEmail";
 			public const string CusFullName = "CusFullName";
-            public const string Role = "Role";
+			public const string CusContext = "CusContext";
+			public const string Role = "Role";
         }
 	}
 }

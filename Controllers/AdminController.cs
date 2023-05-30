@@ -38,6 +38,12 @@ namespace Assignment_CS5.Controllers
 			if (ModelState.IsValid)
 			{
 				Employee emp = _employeeSvc.Login(viewLogin);
+				if (emp.Locked)
+				{
+                    TempData["Message"] = "Your account is locked";
+                    TempData["MessageType"] = "danger";
+                    return View("Login");
+                }else
 				if (emp != null)
 				{
 					HttpContext.Session.SetString(SessionKey.Employee.UserName, emp.UserName);

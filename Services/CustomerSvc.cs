@@ -105,7 +105,9 @@ namespace Assignment_CS5.Services
 
         public Models.Customer Login(ViewLogin viewLogin)
         {
-            var cus = _context.Customer.Where(u => u.Email.Equals(viewLogin.UserName)
+            var pw = _EncodeHelper.Encode(viewLogin.Password);
+            var email = viewLogin.UserName;
+			var cus = _context.Customer.Where(u => u.Email.Equals(viewLogin.UserName)
             && u.Password.Equals(_EncodeHelper.Encode(viewLogin.Password))).FirstOrDefault();
 
             return cus;

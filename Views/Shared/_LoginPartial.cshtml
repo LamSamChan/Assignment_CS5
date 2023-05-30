@@ -4,23 +4,33 @@
 @using Assignment_CS5.Constants
 
 @{
-    string userName = Context.Session.GetString(SessionKey.Employee.UserName);
-}
-@{
-    string fullName = Context.Session.GetString(SessionKey.Employee.FullName);
-}
-@{
-    string role = Context.Session.GetString(SessionKey.Employee.Role);
+    string adminUserName = Context.Session.GetString(SessionKey.Employee.UserName);
+    string adminRole = Context.Session.GetString(SessionKey.Employee.Role);
+    string adminFullName = Context.Session.GetString(SessionKey.Employee.FullName);
+    string cusUserName = Context.Session.GetString(SessionKey.Customer.CusEmail);
+    string cusRole = Context.Session.GetString(SessionKey.Customer.Role);
+    string cusFullName = Context.Session.GetString(SessionKey.Customer.CusFullName);
 }
 
 <ul class="navbar-nav">
-    @if (userName != null && userName != "")
+    @if (!String.IsNullOrEmpty(adminUserName) || !String.IsNullOrEmpty(cusUserName))
     {
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-light">Hello, @fullName</a>
-        </li>
+        @if (!String.IsNullOrEmpty(adminFullName))
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-light">Hello, @adminFullName</a>
+            </li>
+        }
+        @if (!String.IsNullOrEmpty(cusFullName))
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-light">Hello, @cusFullName</a>
+            </li>
+        }
 
-        @if(role == "Admin" || role=="Employee")
+
+
+        @if(adminRole == "Admin" || adminRole=="Employee")
         {
             <li class="nav-item">
                 <form asp-area="" class="mt-2"  asp-controller="Admin" asp-action="Logout" method="post" id="logoutForm">

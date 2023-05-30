@@ -12,6 +12,8 @@ using Assignment_CS5.IServices;
 using Assignment_CS5.Helpers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Assignment_CS5.Constants;
+using Assignment_CS5.ViewModels;
+using Newtonsoft.Json;
 
 namespace Assignment_CS5.Controllers
 {
@@ -167,5 +169,62 @@ namespace Assignment_CS5.Controllers
             }
         }
 
-    }
+		public IActionResult Login()
+		{
+			string userName = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+			if (!String.IsNullOrEmpty(userName))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			else
+			{
+				return View();
+			}
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult LoginAction(ViewLogin viewLogin)
+		{
+			if (ModelState.IsValid)
+			{
+				Customer cus = _service.Login(viewLogin);
+                
+                if (cus != null)
+				{
+					if (cus.Locked)
+					{
+						TempData["Message"] = "Your account is locked";
+						TempData["MessageType"] = "danger";
+						return View("Login");
+					}
+					else
+				    HttpContext.Session.SetString(SessionKey.Customer.CusEmail, cus.Email);
+					HttpContext.Session.SetString(SessionKey.Customer.CusFullName, cus.FullName);
+					HttpContext.Session.SetString(SessionKey.Customer.Role, "Customer");
+					HttpContext.Session.SetString(SessionKey.Customer.CusContext,
+						JsonConvert.SerializeObject(cus));
+
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					TempData["Message"] = "Wrong email or password, please check again";
+					TempData["MessageType"] = "danger";
+					return View("Login");
+				}
+			}
+			TempData["Message"] = "Wrong email or password, please check again";
+			TempData["MessageType"] = "danger";
+			return View("Login");
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Logout()
+		{
+			HttpContext.Session.Clear();
+			return RedirectToAction("Index", "Home");
+		}
+	}
 }
