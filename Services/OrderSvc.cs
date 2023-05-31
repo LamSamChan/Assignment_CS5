@@ -167,5 +167,10 @@ namespace Assignment_CS5.Services
 			}
 			return details;
 		}
-    }
+
+		public List<Order> GetOrderByCusId(int Id)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

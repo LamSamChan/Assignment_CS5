@@ -15,7 +15,7 @@
 </head>
 <body  data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
    <nav class="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top @ViewBag.bgblack" data-spy="affix" data-offset-top="10">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler mr-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,8 +29,8 @@
                 <li class="nav-item ">
                     <a class="nav-link  @ViewBag.SHClass" href="#gallary">Gallary</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link  @ViewBag.SHClass" href="#book-table">Book-Table</a>
+                <li class="nav-item @ViewBag.SHClass">
+                    <a class="nav-link " href="#blog">Blog<span class="sr-only">(current)</span></a>
                 </li>
                 <partial name="_MenuAdminPartial"></partial>
             </ul>
@@ -39,9 +39,7 @@
                 <span class="brand-txt">Food Hut</span>
             </a>
             <ul class="navbar-nav">
-                <li class="nav-item @ViewBag.SHClass">
-                    <a class="nav-link " href="#blog">Blog<span class="sr-only">(current)</span></a>
-                </li>
+                
                 <li class="nav-item @ViewBag.SHClass">
                     <a class="nav-link " href="#testmonial">Reviews</a>
                 </li>
