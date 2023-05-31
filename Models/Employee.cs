@@ -65,7 +65,7 @@ namespace Assignment_CS5.Models
         public bool Locked { get; set; }
 
         [Required(ErrorMessage = "Please enter password!")]
-        [Column(TypeName = "varchar(50)"),MaxLength(50)]
+        [Column(TypeName = "varchar(50)"),MaxLength(50),MinLength(8,ErrorMessage ="This password too short")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

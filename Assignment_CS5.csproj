@@ -25,6 +25,7 @@
   <ItemGroup>
     <Folder Include="bacpac\" />
     <Folder Include="wwwroot\images\avatars\" />
+    <Folder Include="wwwroot\sign_up\" />
   </ItemGroup>
 
 </Project>

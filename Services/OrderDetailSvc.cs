@@ -4,11 +4,11 @@ using Assignment_CS5.Models;
 
 namespace Assignment_CS5.Services
 {
-	public class OderDetailSvc : IOrderDetailSvc
+	public class OrderDetailSvc : IOrderDetailSvc
 	{
 		private readonly MyDbContext _context;
 		
-		public OderDetailSvc(MyDbContext context)
+		public OrderDetailSvc(MyDbContext context)
 		{
 			_context = context;
 		}

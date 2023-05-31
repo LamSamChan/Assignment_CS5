@@ -73,12 +73,12 @@ namespace Assignment_CS5.Controllers
 
 
 
-        public IActionResult Create()
+        public IActionResult SignUp()
         {
                 return View();
         }
 
-        // POST: Menu/Create
+        // POST: Menu/SignUp
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -96,17 +96,17 @@ namespace Assignment_CS5.Controllers
                         TempData["MessageType"] = "danger";
                         ViewBag.SHClass = "d-none";
                         ViewBag.bgblack = "bg-black";
-                        return View("Create");
+                        return View("SignUp");
                     }
                     else if(check == -1){
                         TempData["Message"] = "Phone number already exists, try 1 different phone number.";
                         TempData["MessageType"] = "danger";
                         ViewBag.SHClass = "d-none";
                         ViewBag.bgblack = "bg-black";
-                        return View("Create");
+                        return View("SignUp");
                     }
                     else {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index","Home");
                     }
                    
                 }
@@ -116,7 +116,7 @@ namespace Assignment_CS5.Controllers
                     TempData["MessageType"] = "danger";
                     ViewBag.SHClass = "d-none";
                     ViewBag.bgblack = "bg-black";
-                    return View("Create");
+                    return View("SignUp");
                 }
             }
             else
@@ -125,7 +125,7 @@ namespace Assignment_CS5.Controllers
                 TempData["MessageType"] = "danger";
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
-                return View("Create");
+                return View("SignUp");
             }
 
         }
@@ -138,7 +138,7 @@ namespace Assignment_CS5.Controllers
             if (ModelState.IsValid)
             {
                 _service.UpdateCustomer(customer);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             else
             {
@@ -197,14 +197,17 @@ namespace Assignment_CS5.Controllers
 						TempData["MessageType"] = "danger";
 						return View("Login");
 					}
-					else
-				    HttpContext.Session.SetString(SessionKey.Customer.CusEmail, cus.Email);
-					HttpContext.Session.SetString(SessionKey.Customer.CusFullName, cus.FullName);
-					HttpContext.Session.SetString(SessionKey.Customer.Role, "Customer");
-					HttpContext.Session.SetString(SessionKey.Customer.CusContext,
-						JsonConvert.SerializeObject(cus));
+                    else
+                    {
+                        HttpContext.Session.SetString(SessionKey.Customer.CusEmail, cus.Email);
+                        HttpContext.Session.SetString(SessionKey.Customer.CusFullName, cus.FullName);
+                        HttpContext.Session.SetString(SessionKey.Customer.Role, "Customer");
+                        HttpContext.Session.SetString(SessionKey.Customer.CusContext,
+                            JsonConvert.SerializeObject(cus));
 
-					return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
+				    
 				}
 				else
 				{

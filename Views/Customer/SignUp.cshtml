@@ -1,0 +1,110 @@
+﻿
+@model Assignment_CS5.Models.Customer
+@{
+	Layout = "_LoginLayout";
+}
+<div class="limiter">
+	<div class="container-login100 bg-login" >
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+			<form class="login100-form" asp-action="Add" asp-controller="Customer" method="post">
+                @if (TempData["Message"] != null)
+                {
+                    <div class="alert alert-@TempData["MessageType"]" role="alert">
+                            @TempData["Message"]
+                    </div>
+                }
+				<span class="login100-form-title p-b-49">
+					Sign Up
+				</span>
+				<div class="wrap-input100 m-b-23" >
+                    <input class="input100" asp-for="FullName" placeholder="Full name" required>
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                    <span class="text-danger" asp-validation-for="FullName"></span>
+				</div>
+                <div class="wrap-input100 m-b-23">
+                    <input class="input100 " asp-for="Email" placeholder="Email" required>
+                    <span class="focus-input100" data-symbol="&#xf15a;"></span>
+
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="wrap-input100 m-b-23">
+                    <select asp-for="Gender" class="mt-0 input100" asp-items="Html.GetEnumSelectList<Gender>()" required>
+                        <option value="" disabled selected>...Select gender</option>
+                    </select>
+                    <span class="focus-input100"></span>
+                    <span class="text-danger" asp-validation-for="Gender"></span>
+                </div>
+                <div class="wrap-input100 m-b-23">
+                    <label class="label-input100" asp-for="DateOfBirth"></label>
+                    <input class="input100" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required>
+                    <span class="focus-input100" data-symbol="&#xf32e;"></span>
+
+                    <span class="text-danger" asp-validation-for="DateOfBirth"></span>
+                </div>
+                <div class="wrap-input100 m-b-23">
+                    <input class="input100" asp-for="PhoneNumber" placeholder="Phone number" required>
+                    <span class="focus-input100" data-symbol="&#xf2be;"></span>
+                    <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                </div>
+                <div class="wrap-input100 m-b-23">
+                    <textarea class="input100" asp-for="Address" placeholder="Address" rows="1"></textarea>
+                    <span class="focus-input100" data-symbol="&#xf175;"></span>
+                    <span class="text-danger" asp-validation-for="Address"></span>
+                </div>
+                 
+				<div class="wrap-input100 m-b-23">
+                    <input class="input100" asp-for="Password" placeholder="Password" id="Password" name="Password" required>
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                    <span class="text-danger" asp-validation-for="Password"></span>
+				</div>
+                <div class="wrap-input100 m-b-23">
+                    <input class="input100" asp-for="ConfirmPassword" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" required>
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+				</div>
+                <div class="form-check mt-3 ml-2">
+                    <input class="form-check-input" type="checkbox" required>
+                    <label class="form-check-label">I confirm that all data are correct</label>
+                </div>
+				<div class="container-login100-form-btn">
+					<div class="wrap-login100-form-btn">
+						<div class="login100-form-bgbtn"></div>
+						<button type="submit" class="login100-form-btn">
+							Sign Up
+						</button>
+					</div>
+				</div>
+
+				<div class="txt1 text-center p-t-54 p-b-20">
+					<span>
+						Or Login Using
+					</span>
+				</div>
+
+				<div class="flex-c-m">
+					<a href="#" class="login100-social-item bg1">
+						<i class="fa fa-facebook"></i>
+					</a>
+
+					<a href="#" class="login100-social-item bg2">
+						<i class="fa fa-twitter"></i>
+					</a>
+
+					<a href="#" class="login100-social-item bg3">
+						<i class="fa fa-google"></i>
+					</a>
+				</div>
+
+				<div class="flex-col-c p-t-155">
+
+					<a href="/Customer/Login" class="txt2">
+						Login
+					</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<div id="dropDownSelect1"></div>

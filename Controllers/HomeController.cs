@@ -11,12 +11,22 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly MyDbContext _context;
-    private readonly IMenuSvc _service;
-    public HomeController(ILogger<HomeController> logger, MyDbContext context, IMenuSvc service)
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IMenuSvc _menuSvc;
+    private readonly ICustomerSvc _customerSvc;
+    private readonly IOrderSvc _orderSvc;
+    private readonly IOrderDetailSvc _orderDetailSvc;
+
+    public HomeController(ILogger<HomeController> logger, MyDbContext context, IMenuSvc menuSvc, IWebHostEnvironment webHostEnvironment,
+        ICustomerSvc customerSvc, IOrderSvc orderSvc, IOrderDetailSvc orderDetailSvc)
     {
         _logger = logger;
         _context = context;
-        _service = service;
+        _menuSvc = menuSvc;
+        _webHostEnvironment = webHostEnvironment;
+        _customerSvc = customerSvc; 
+        _orderSvc = orderSvc;
+        _orderDetailSvc = orderDetailSvc;
     }
 
     public IActionResult Index()

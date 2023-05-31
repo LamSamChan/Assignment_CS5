@@ -21,11 +21,11 @@
     <li class="nav-item">
         @if (String.IsNullOrEmpty(cart))
         {
-            <a id="cart" class="nav-link text-light p-0 ml-3 mr-3"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3"></i></span></a>
+            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3"></i></span></a>
         }
         else
         {
-            <a id="cart" class="nav-link text-light p-0 ml-3 mr-3"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3-fill"></i></span></a>
+            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3-fill"></i></span></a>
         }
     </li>
     @if (!String.IsNullOrEmpty(adminUserName) || !String.IsNullOrEmpty(cusUserName))
@@ -41,12 +41,12 @@
             <li class="nav-item">
                 <a id="manage" class="nav-link text-light">Hello, @cusFullName</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-light">Đơn hàng</a>
-            </li>
+            
         }
 
-
+        <li class="nav-item">
+                <a class="nav-link text-light">Đơn hàng</a>
+            </li>
 
         @if(adminRole == "Admin" || adminRole=="Employee")
         {
@@ -67,7 +67,7 @@
     else
     {
         <li class="nav-item">
-             <a class="nav-link" href="#">Sign Up</a>
+            <a class="btn btn-outline-primary" href="/Customer/SignUp">SignUp</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-primary ml-xl-4 " id="login" href="/Customer/Login">Login</a>

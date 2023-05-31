@@ -14,6 +14,7 @@ builder.Services.AddTransient<IMenuSvc,MenuSvc>();
 builder.Services.AddTransient<IEmployeeSvc, EmployeeSvc>();
 builder.Services.AddTransient<ICustomerSvc, CustomerSvc>();
 builder.Services.AddTransient<IOrderSvc, OrderSvc>();
+builder.Services.AddTransient<IOrderDetailSvc, OrderDetailSvc>();
 
 builder.Services.AddTransient<IUploadHelper, UploadHelper>();
 builder.Services.AddTransient<IEncodeHelper, EncodeHelper>();
