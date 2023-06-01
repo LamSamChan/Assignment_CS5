@@ -98,7 +98,7 @@ namespace Assignment_CS5.Controllers
                         ViewBag.bgblack = "bg-black";
                         return View("SignUp");
                     }
-                    else if(check == -1){
+                    else if(check == -2){
                         TempData["Message"] = "Phone number already exists, try 1 different phone number.";
                         TempData["MessageType"] = "danger";
                         ViewBag.SHClass = "d-none";
@@ -106,7 +106,9 @@ namespace Assignment_CS5.Controllers
                         return View("SignUp");
                     }
                     else {
-                        return RedirectToAction("Index","Home");
+                        TempData["SuccessMessage"] = "Đăng ký thành công!";
+
+                        return RedirectToAction("Index", "Home");
                     }
                    
                 }

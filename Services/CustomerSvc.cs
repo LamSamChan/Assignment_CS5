@@ -154,13 +154,34 @@ namespace Assignment_CS5.Services
         }
         public int IsFieldExist(Models.Customer customer)
         {
+            string phoneNumber = null;
+            
+            if (customer.PhoneNumber.StartsWith("+84"))
+            {
+                phoneNumber = customer.PhoneNumber.Substring(3);
+            }
+            else if (customer.PhoneNumber.StartsWith("0"))
+            {
+                phoneNumber = customer.PhoneNumber.Substring(1);
+            }
+
             foreach (var cus in _context.Customer.ToList())
             {
+                string existPhoneNumber = null;
+                if (cus.PhoneNumber.StartsWith("+84"))
+                {
+                    existPhoneNumber = cus.PhoneNumber.Substring(3);
+                }
+                else if (customer.PhoneNumber.StartsWith("0"))
+                {
+                    existPhoneNumber = cus.PhoneNumber.Substring(1);
+                }
+                
                  if (customer.Email == cus.Email)
                 {
                     return -1;
                 }
-                else if (customer.PhoneNumber == cus.PhoneNumber)
+                else if (phoneNumber == existPhoneNumber)
                 {
                     return -2;
                 }

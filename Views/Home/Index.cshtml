@@ -1,6 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <!-- SweetAlert CDN -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            swal({
+                title: 'Success',
+                text: '@Html.Raw(TempData["SuccessMessage"])',
+                icon: 'success',
+                button: 'OK'
+            });
+        });
+    </script>
+}
 
 <!-- header -->
 <header id="home" class="header">

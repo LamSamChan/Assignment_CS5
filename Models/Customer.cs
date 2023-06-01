@@ -35,7 +35,7 @@ namespace Assignment_CS5.Models
 
         [Required(ErrorMessage = "Please enter phone number!")]
         [Display(Name = "Phone number")]
-        [RegularExpression(@"^(\\+?84|0)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$",
+        [RegularExpression("^(\\+?84|0)(3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$",
             ErrorMessage = "Phone number is invalid")]
         [Column(TypeName="varchar(15)"),MaxLength(15)]
         public string PhoneNumber { get; set; }
