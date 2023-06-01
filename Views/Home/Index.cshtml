@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Assignment_CS5.Models.Menu>
+
+@{
     ViewData["Title"] = "Home";
 }
 @if (TempData["SuccessMessage"] != null)
@@ -49,83 +51,89 @@
 </div>
 
 <!--  gallary Section  -->
-<div id="gallary" class="text-center bg-dark text-light has-height-md middle-items wow fadeIn">
+<div id="gallary" class="container-fluid bg-dark text-light py-5 text-center wow fadeIn">
     <h2 class="section-title">OUR MENU</h2>
 </div>
-<div class="gallary row">
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-1.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
+    <div class="row justify-content-center">
+        <div class="col-sm-7 col-md-4 mb-5">
+            <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#foods_menu" role="tab" aria-controls="pills-home" aria-selected="true">Foods</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#drinks_menu" role="tab" aria-controls="pills-profile" aria-selected="false">Drinks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#combos_menu" role="tab" aria-controls="pills-profile" aria-selected="false">Combos</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-2.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="foods_menu" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="row">
+                @foreach(var item in Model)
+                {
+                    if (item.Status && item.Category.ToString() == "Food")
+                    {
+                        <div class="col-md-3">
+                            <div class="card bg-transparent border my-3 my-md-0">
+                                <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
+                                <div class="card-body text-center">
+                                    <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                    <h4 class="pt20 pb20 ">@item.Name</h4>
+                                <p class="text-white ">@item.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                }
+                
+            </div>
+        </div>
+        <div class="tab-pane fade" id="drinks_menu" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    if (item.Status && item.Category.ToString() == "Drink")
+                    {
+                        <div class="col-md-3">
+                            <div class="card bg-transparent border my-3 my-md-0">
+                                <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
+                            <div class="card-body text-center">
+                                <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                <h4 class="pt20 pb20 ">@item.Name</h4>
+                                <p class="text-white ">@item.Description</p>
+                            </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade" id="combos_menu" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    if (item.Status && item.Category.ToString() == "Combo")
+                    {
+                        <div class="col-md-3">
+                            <div class="card bg-transparent border my-3 my-md-0">
+                                <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
+                            <div class="card-body text-center">
+                                <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                <h4 class="pt20 pb20 ">@item.Name</h4>
+                                <p class="text-white ">@item.Description</p>
+                            </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-3.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-4.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-5.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-6.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-7.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-8.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-9.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-10.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-11.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-    <div class="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-        <img src="assets/imgs/gallary-12.jpg" alt="template by DevCRID http://www.devcrud.com/" class="gallary-img">
-        <a href="#" class="gallary-overlay">
-            <i class="gallary-icon ti-plus"></i>
-        </a>
-    </div>
-</div>
 
 <!-- book a table Section  -->
 <div class="container-fluid has-bg-overlay text-center text-light has-height-lg middle-items">

@@ -171,7 +171,44 @@ namespace Assignment_CS5.Controllers
             }
         }
 
-		public IActionResult Login()
+        public IActionResult Info()
+        {
+            string cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+
+            if (!String.IsNullOrEmpty(cusEmail))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
+            var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
+            var customer = _service.GetById(cusId);
+            ViewBag.SHClass = "d-none";
+            ViewBag.bgblack = "bg-black";
+            return View(customer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateForCus(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                _service.UpdateCustomer(customer);
+                TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["Message"] = "An error occurred";
+                TempData["MessageType"] = "danger";
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
+                return View("Info");
+            }
+        }
+
+        public IActionResult Login()
 		{
 			string userName = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
 			if (!String.IsNullOrEmpty(userName))

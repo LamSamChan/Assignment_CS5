@@ -1,0 +1,80 @@
+﻿@model Assignment_CS5.Models.Customer
+@{
+    ViewData["Title"] = "Customer Info";
+}
+
+<div class="form-body" style="margin-top:140px">
+    <div>
+        <div class="form-holder">
+            <div class="form-content justify-content-center">
+                <div class="form-items">
+                    <h3>Edit Customer</h3>
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-@TempData["MessageType"]" role="alert">
+                            @TempData["Message"]
+                        </div>
+                    }
+                    <form asp-action="Update" asp-controller="Customer" method="post" enctype="multipart/form-data">
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="CustomerID" required readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="FullName" placeholder="Full name" required readonly>
+                            <span class="text-danger" asp-validation-for="FullName"></span>
+                        </div>
+                        <div class="col-md-12 mt-3 ">
+                            <input class="form-control bg-light text-dark" asp-for="Email" placeholder="Email" required readonly>
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <select asp-for="Gender" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Gender>()" required >
+                                <option value="" disabled>...Select gender</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Gender"></span>
+                        </div>
+                        <div class="col-md-12  mt-3">
+                            <input class="form-control bg-light text-dark" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required >
+                            <span class="text-danger" asp-validation-for="DateOfBirth"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="PhoneNumber" placeholder="Phone number" required>
+                            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for="Point"></label>
+                            <input class="form-control bg-light text-dark" asp-for="Point" placeholder="Point" required readonly>
+                            <span class="text-danger" asp-validation-for="Point"></span>
+                        </div>
+                        <div class="d-none">
+                            <div class="col-md-12">
+                                <input class="form-control" asp-for="Password" placeholder="Password" id="Password" name="Password" value="@Model.Password">
+                                <span class="text-danger" asp-validation-for="Password"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <input class="form-control" asp-for="ConfirmPassword" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" value="@Model.Password">
+                                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <textarea class="form-control" asp-for="Address" placeholder="Address" required ></textarea>
+                            <span class="text-danger" asp-validation-for="Address"></span>
+                        </div>
+                        <div class="form-button mt-3">
+                            <button id="submit" type="submit" class="btn btn-success">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

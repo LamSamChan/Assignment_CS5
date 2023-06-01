@@ -24,7 +24,7 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Category</th>
-                        <th>Imgae</th>
+                        <th>Image</th>
                         <th>Description</th>
                         <th>Status</th>
                     </tr>
@@ -36,7 +36,7 @@
                         <tr>
                             <td><a class="nav-link link-dark link-edit m-0" asp-action="Edit" asp-controller="Menu" asp-route-Id="@item.ProductId">@item.ProductId</a></td>
                             <td>@item.Name</td>
-                            <td>@String.Format("{0:0,0 vnđ}", item.Price)</td>
+                            <td>@String.Format("{0:0,0 VNĐ}", item.Price)</td>
                             <td>@item.Category</td>
                             <td><img src="~/images/products/@item.Image" class="img-thumbnail img-150" /></td>
                             <td>@item.Description</td>

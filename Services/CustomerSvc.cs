@@ -172,7 +172,7 @@ namespace Assignment_CS5.Services
                 {
                     existPhoneNumber = cus.PhoneNumber.Substring(3);
                 }
-                else if (customer.PhoneNumber.StartsWith("0"))
+                else if (cus.PhoneNumber.StartsWith("0"))
                 {
                     existPhoneNumber = cus.PhoneNumber.Substring(1);
                 }

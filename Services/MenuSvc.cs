@@ -126,5 +126,19 @@ namespace Assignment_CS5.Services
             }
             return status;
         }
+
+        public List<Menu> GetAllMenu()
+        {
+            try
+            {
+                return _context.Menus.ToList();
+            }
+            catch (Exception)
+            {
+
+                return new List<Menu>();
+            }
+            
+        }
     }
 }
