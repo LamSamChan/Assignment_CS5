@@ -55,7 +55,7 @@ public class HomeController : Controller
         }
         else
         {
-            List<ViewCart> dataCart = JsonConvert.DeserializeObject< List <ViewCart>> (cart);
+            List<ViewCart> dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
             bool check = true;
             for (int i = 0; i < dataCart.Count; i++)
             {
