@@ -138,7 +138,7 @@ namespace Assignment_CS5.Controllers
             if (ModelState.IsValid)
             {
                 _service.UpdateCustomer(customer);
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Customer");
             }
             else
             {

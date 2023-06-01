@@ -20,25 +20,25 @@
                             <input class="form-control bg-light text-dark" asp-for="CustomerID" required readonly>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control bg-light text-dark" asp-for="FullName" placeholder="Full name" required>
+                            <input class="form-control bg-light text-dark" asp-for="FullName" placeholder="Full name" required readonly>
                             <span class="text-danger" asp-validation-for="FullName"></span>
                         </div>
                         <div class="col-md-12 mt-3 ">
-                            <input class="form-control bg-light text-dark" asp-for="Email" placeholder="Email" required>
+                            <input class="form-control bg-light text-dark" asp-for="Email" placeholder="Email" required readonly>
                             <span class="text-danger" asp-validation-for="Email"></span>
                         </div>
                         <div class="col-md-12 mt-3">
-                            <select asp-for="Gender" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Gender>()" required>
-                                <option value="" disabled selected>...Select gender</option>
+                            <select asp-for="Gender" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Gender>()" required readonly>
+                                <option value="" disabled>...Select gender</option>
                             </select>
                             <span class="text-danger" asp-validation-for="Gender"></span>
                         </div>
                         <div class="col-md-12  mt-3">
-                            <input class="form-control bg-light text-dark" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required>
+                            <input class="form-control bg-light text-dark" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required readonly>
                             <span class="text-danger" asp-validation-for="DateOfBirth"></span>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control bg-light text-dark" asp-for="PhoneNumber" placeholder="Phone number" required>
+                            <input class="form-control bg-light text-dark" asp-for="PhoneNumber" placeholder="Phone number" required readonly>
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
                         <div class="col-md-12">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-3">
-                            <textarea class="form-control" asp-for="Address" placeholder="Address" required></textarea>
+                            <textarea class="form-control" asp-for="Address" placeholder="Address" required readonly></textarea>
                             <span class="text-danger" asp-validation-for="Address"></span>
                         </div>
                         <div class="col-md-12 mt-3">
