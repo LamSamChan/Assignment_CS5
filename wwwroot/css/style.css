@@ -43,7 +43,10 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
 }
-
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
 .form-holder {
     display: flex;
     flex-direction: column;

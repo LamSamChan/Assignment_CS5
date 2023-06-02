@@ -6,8 +6,9 @@ namespace Assignment_CS5.IServices
 	public interface IOrderSvc
 	{
 		public PaginationViewModel GetAll(string type,string searchString,DateTime searchDate, int page);
-		public Order GetById(int Id);
-		public List<Order> GetOrderByCusId(int Id);
+        public PaginationViewModel GetAllForCus(int cusId,string searchString, DateTime searchDate, int page);
+
+        public Order GetById(int Id);
 
 		public int AddOrder(Order order);
 		public int UpdateOrder(Order order);

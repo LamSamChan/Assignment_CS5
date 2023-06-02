@@ -16,11 +16,11 @@ namespace Assignment_CS5.Models
 
         [Required,Range(1,int.MaxValue,ErrorMessage =("You need to enter the quantity"))]
         [Display(Name ="Quantity")]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [Required, Range(0, double.MaxValue, ErrorMessage = ("You need to enter the total"))]
         [Display(Name = "Total")]
-        public string Total { get; set; }
+        public double Total { get; set; }
 
         [Display(Name = "Note")]
         public string? Note { get; set; }

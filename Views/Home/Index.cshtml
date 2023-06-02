@@ -80,7 +80,7 @@
                             <div class="card bg-transparent border my-3 my-md-0">
                                 <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
                                 <div class="card-body text-center">
-                                    <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                    <h1 class=" mb-4"><a href="javascript:addCart(@item.ProductId);" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
                                     <h4 class="pt20 pb20 ">@item.Name</h4>
                                 <p class="text-white ">@item.Description</p>
                                 </div>
@@ -102,7 +102,7 @@
                             <div class="card bg-transparent border my-3 my-md-0">
                                 <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
                             <div class="card-body text-center">
-                                <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                <h1 class=" mb-4"><a href="javascript:addCart(@item.ProductId);" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
                                 <h4 class="pt20 pb20 ">@item.Name</h4>
                                 <p class="text-white ">@item.Description</p>
                             </div>
@@ -123,7 +123,7 @@
                             <div class="card bg-transparent border my-3 my-md-0">
                                 <img src="~/images/products/@item.Image" alt="@item.Name" class="rounded-0 card-img-top mg-responsive">
                             <div class="card-body text-center">
-                                <h1 class=" mb-4"><a asp-action="AddCart" asp-controller="Home" asp-route-id="@item.ProductId" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
+                                <h1 class=" mb-4"><a href="javascript:addCart(@item.ProductId);" class="badge badge-primary">@String.Format("{0:0,0 VNĐ}", item.Price)</a></h1>
                                 <h4 class="pt20 pb20 ">@item.Name</h4>
                                 <p class="text-white ">@item.Description</p>
                             </div>
@@ -133,6 +133,23 @@
                 }
             </div>
         </div>
+
+        <script>
+            function addCart(id){
+                setTimeout(function(){
+                    $.ajax({
+                        url:"/Home/AddCart?Id=" +id,
+                        type: "Post",
+                        success: function (result){
+                        $("#cart-status").attr("class", "bi bi-basket3-fill");
+                    },
+                        error: function (e){
+                            alert(this.url);
+                        }
+                    });
+                },500);
+            }
+        </script>
     </div>
 
 <!-- book a table Section  -->

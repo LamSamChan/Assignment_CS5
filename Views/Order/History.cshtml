@@ -1,0 +1,102 @@
+﻿@model Assignment_CS5.ViewModels.PaginationViewModel
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<div style="margin-top:170px">
+    
+        <div class="row m-5 justify-content-center">
+            <form class="w-50" asp-action="History" asp-controller="Order" method="get">
+                <div class="row w-100" style="height:50px;">
+                    <div class="col-lg-3"><input class="w-100 h-100" type="date" name="searchDate" /></div>  
+                    <div class="col-lg-6"><input class="w-100 h-100" type="text" name="searchString" placeholder="Enter a order id" /></div>
+                    <div class="col-lg-3"> <button type="submit" class="btn-outline-primary link-edit w-100 h-100">Search</button></div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row m-5">
+            <table class="table text-light mt-5">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Note</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Orders)
+                    {
+                        if (!item.Delete)
+                    {
+                        <tr>
+                            <td>@item.OrderId</td>
+                            <td>@item.OrderDate.ToString("hh:mm:ss dd/MM/yyyy")</td>
+                            <td>@String.Format("{0:0,0 vnđ}", item.Total)</td>
+                            <td>@item.Status</td>
+                            <td>@item.Note</td>
+                            <td>
+                                <a class="nav-link link-danger link-edit m-0" style="height: 50px; width: 50px;" asp-action="Details" asp-controller="Order" asp-route-Id="@item.OrderId">...</a>
+                            </td>
+                        </tr>
+                    }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    <div class="row justify-content-center">
+        @{
+            int totalPages = Model.PaginationInfo.TotalPages;
+            int currentPage = Model.PaginationInfo.CurrentPage;
+            int displayPages = 5; // Số trang hiển thị
+            int halfDisplayPages = displayPages / 2;
+            int startPage = Math.Max(currentPage - halfDisplayPages, 1);
+            int endPage = Math.Min(startPage + displayPages - 1, totalPages);
+
+            if (endPage - startPage + 1 < displayPages)
+            {
+                startPage = Math.Max(endPage - displayPages + 1, 1);
+            }
+        }
+
+        <div class="pagination">
+            @if (currentPage > 1)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("History", new { searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = 1 })">First</a>
+            }
+
+            @if (startPage > 1)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("History", new {  searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate,page = startPage - 1 })">...</a>
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                if (i == currentPage)
+                {
+                    <span class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2 text-light">@i</span>
+                }
+                else
+                {
+                    <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("History", new { searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = i })">@i</a>
+                }
+            }
+    
+           @if (endPage < totalPages)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("History", new { searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = endPage + 1 })">...</a>
+            }
+    
+            @if (currentPage < totalPages)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("History", new { searchString =Model.PaginationInfo.SearchKeyword, searchDate =Model.PaginationInfo.SearchDate, page = totalPages })">Last</a>
+            }
+        </div>
+    </div>
+</div>
+

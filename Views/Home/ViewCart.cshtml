@@ -48,35 +48,96 @@
                             <td id="cellPrice_@id">@String.Format("{0:0,0 VNĐ}", item.Menu.Price)</td>
                             <td id="cellTotal_@id">@String.Format("{0:0,0 VNĐ}", totalSub)</td>
                             <td>
-                                <a class="nav-link" href="javascript:updateCart(@id)">Update</a>  
-                                |  <a class="nav-link" href="javascript:deleteCart(@id)">Delete</a>
+                                <a class="nav-link" href="javascript:updateCart(@id)">Update</a>
+                                <hr>
+                                <a class="nav-link" href="javascript:deleteCart(@id)">Delete</a>
                             </td>
 
                         </tr>
                     }
                 }
                 <tr >
-                    <th rowspan="5">Total:</th>
-                    <td id="totalCart">@total</td>
+                    <th colspan="5" class="text-right">Total:</th>
+                    <td id="totalCart">@String.Format("{0:0,0 VNĐ}", total)</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="row m-5 justify-content-center">
-                <div class="row w-100" style="height:50px;">
+        <div class="w-100 text-center">
+                <div  style="height:50px; width:30%; margin:auto;">
                 @{
                     if (!String.IsNullOrEmpty(cusEmail))
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " asp-action="Create" asp-controller="Menu">Add Product</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
                     }
                     else
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled" asp-action="Create" asp-controller="Menu">Add Product</a>
-                        <span class="text-danger">You need to log in before placing an order</span>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <span class="text-danger mt-2">You need to log in before placing an order</span>
                     }
 
                 }
                 </div>
         </div>
-
 </div>
+
+<script>
+        function deleteCart(id){
+            $.ajax({
+                type: "POST",
+                url: "/Home/DeleteCart",
+                data:{
+                    id: id
+                },
+                success: function(result){
+                    $("row_"+id).hide();
+                    $("totalCart").html(result);
+                    if(result == "0"){
+                        $("#cart-status").attr("class", "bi bi-basket3");
+                    }
+                }
+            });
+        }
+
+        function updateCart(id) {
+            var amount = $("#txtQuantity_" + id).val();
+            var price = $("#cellPrice_" + id).html();
+            var total = amount * price;
+            $("#cellTotal_" + id).html(total);
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/UpdateCart",
+                data: {
+                    id: id,
+                    quantity: amount
+                },
+                success: function (result) {
+                    $("#totalCart").html(result);
+                    if (result == "0"){
+                        $("#cart-status").attr("class", "bi bi-basket3");
+                    }
+                }
+            });
+        }
+
+        function orderCart(flagLogin) {
+            if (!flagLogin) {
+                alert("Bạn cần đăng nhập để đặt hàng.");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/OrderCart",
+                data: {
+                },
+                success: function (result) {
+                    window.location = "/Order/History";
+                }
+            });
+        }
+
+
+    </script>

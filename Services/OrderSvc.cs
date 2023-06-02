@@ -110,7 +110,53 @@ namespace Assignment_CS5.Services
 			}
 		}
 
-		public Order GetById(int Id)
+        public PaginationViewModel GetAllForCus(int cusId,string searchString, DateTime searchDate, int page)
+        {
+            var list = _context.Orders.OrderByDescending(x => x.OrderDate)
+                .Include(x => x.Customer)
+                .Include(x => x.OrderDetails)
+                .Where(c => c.CustomerId == cusId).ToList();
+            try
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                { 
+                        if (searchDate.Year != 1)
+                        {
+                            list = list.Where(p => p.OrderId.ToString().Contains(searchString.ToLower())
+                            && p.OrderDate.ToString("yyyy/MM/dd").Contains(searchDate.ToString("yyyy/MM/dd"))).ToList();
+                        }
+                        else
+                        {
+                            list = list.Where(p => p.OrderId.ToString().Contains(searchString.ToLower())).ToList();
+                        }
+
+                }
+                int pageSize = 5;
+                var pagedOrders = list.Skip((page - 1) * pageSize).Take(pageSize); // Lấy các sản phẩm cho trang hiện tại
+
+                var viewModel = new PaginationViewModel
+                {
+                    Orders = pagedOrders,
+                    PaginationInfo = new PaginationInfo
+                    {
+                        SearchKeyword = searchString,
+                        CurrentPage = page,
+                        SearchDate = searchDate,
+                        PageSize = pageSize,
+                        TotalItems = list.Count()
+                    }
+                };
+                return viewModel;
+
+            }
+            catch (System.Exception ex)
+            {
+
+                return new PaginationViewModel();
+            }
+        }
+
+        public Order GetById(int Id)
 		{
 			try
 			{
@@ -168,9 +214,5 @@ namespace Assignment_CS5.Services
 			return details;
 		}
 
-		public List<Order> GetOrderByCusId(int Id)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

@@ -53,6 +53,23 @@ namespace Assignment_CS5.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        public IActionResult History(string searchString, DateTime searchDate, int page)
+        {
+            var cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+            int cusId=0;
+            if (!String.IsNullOrEmpty(cusEmail))
+            {
+                cusId = _context.Customer.FirstOrDefault(c => c.Email == cusEmail).CustomerID;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.SHClass = "d-none";
+            ViewBag.bgblack = "bg-black";
+            return View(_service.GetAllForCus(cusId,searchString, searchDate, page));
+            
+        }
         public IActionResult Create()
         {
                 return View();
@@ -125,7 +142,9 @@ namespace Assignment_CS5.Controllers
 
         public IActionResult Details(int Id)
         {
-            if (IsAuthenticate == 1 || IsAuthenticate == 2)
+            var cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+
+            if (IsAuthenticate == 1 || IsAuthenticate == 2 || !String.IsNullOrEmpty(cusEmail))
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
