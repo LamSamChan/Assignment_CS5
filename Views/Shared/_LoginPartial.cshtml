@@ -21,11 +21,11 @@
     <li class="nav-item">
         @if (String.IsNullOrEmpty(cart))
         {
-            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3"></i></span></a>
+            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i id="cart-status" class="bi bi-basket3"></i></span></a>
         }
         else
         {
-            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i class="bi bi-basket3-fill"></i></span></a>
+            <a id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i id="cart-status" class="bi bi-basket3-fill"></i></span></a>
         }
     </li>
     @if (!String.IsNullOrEmpty(adminUserName) || !String.IsNullOrEmpty(cusUserName))

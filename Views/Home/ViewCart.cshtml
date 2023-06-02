@@ -34,9 +34,49 @@
                     double total = 0;
                     foreach(var item in Model)
                     {
-                        
+                        int id = item.Menu.ProductId;
+                        string txt_Id = "txtQuantity_" + id;
+                        stt++;
+                        double totalSub = item.Menu.Price * item.Quantity;
+                        total += totalSub;
+
+                        <tr id="row_@id">
+                            <td>@stt</td>
+                            <td><img src="~/images/products/@item.Menu.Image" class="img-thumbnail img-150" /></td>
+                            <td>@item.Menu.Name</td>
+                            <td><input class="form-control" type="number" min="0" step="1" id="@txt_Id" value="@item.Quantity"/></td>
+                            <td id="cellPrice_@id">@String.Format("{0:0,0 VNĐ}", item.Menu.Price)</td>
+                            <td id="cellTotal_@id">@String.Format("{0:0,0 VNĐ}", totalSub)</td>
+                            <td>
+                                <a class="nav-link" href="javascript:updateCart(@id)">Update</a>  
+                                |  <a class="nav-link" href="javascript:deleteCart(@id)">Delete</a>
+                            </td>
+
+                        </tr>
                     }
                 }
+                <tr >
+                    <th rowspan="5">Total:</th>
+                    <td id="totalCart">@total</td>
+                </tr>
             </tbody>
         </table>
+
+        <div class="row m-5 justify-content-center">
+                <div class="row w-100" style="height:50px;">
+                @{
+                    if (!String.IsNullOrEmpty(cusEmail))
+                    {
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " asp-action="Create" asp-controller="Menu">Add Product</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled" asp-action="Create" asp-controller="Menu">Add Product</a>
+                        <span class="text-danger">You need to log in before placing an order</span>
+                    }
+
+                }
+                </div>
+        </div>
+
 </div>
