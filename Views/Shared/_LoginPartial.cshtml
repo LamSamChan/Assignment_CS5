@@ -21,11 +21,19 @@
     <li class="nav-item">
         @if (String.IsNullOrEmpty(cart))
         {
-            <a asp-action="ViewCart" asp-controller="Home" id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i id="cart-status" class="bi bi-basket3"></i></span></a>
+            <a asp-action="ViewCart" asp-controller="Home" id="cart" class="nav-link text-light p-0 ml-3 mr-4">
+                <span class="w-100 h-100" style="font-size:x-large;">
+                    <i id="cart-status" class="bi bi-basket3"> </i>
+                </span>
+            </a>
         }
         else
         {
-            <a asp-action="ViewCart" asp-controller="Home" id="cart" class="nav-link text-light p-0 ml-3 mr-4"><span class="w-100 h-100" style="font-size:x-large;"><i id="cart-status" class="bi bi-basket3-fill"></i></span></a>
+            <a asp-action="ViewCart" asp-controller="Home" id="cart" class="nav-link text-light p-0 ml-3 mr-4">
+                <span class="w-100 h-100" style="font-size:x-large;">
+                    <i id="cart-status" class="bi bi-basket3-fill"></i>
+                </span>
+            </a>
         }
     </li>
     @if (!String.IsNullOrEmpty(adminUserName) || !String.IsNullOrEmpty(cusUserName))
@@ -38,8 +46,13 @@
         }
         @if (!String.IsNullOrEmpty(cusFullName))
         {
-            <li class="nav-item">
-                <a id="manage" class="nav-link text-light">Hello, @cusFullName</a>
+            <li class="nav-item dropdown">
+                <a id="manage" class="nav-link dropdown-toggle" 
+                data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, @cusFullName</a>
+                <div class="dropdown-menu">
+                    <a class="nav-link dropdown-item" asp-action="Info" asp-controller="Customer">Infomation personal</a>
+                    <a class="nav-link dropdown-item" asp-controller="" asp-action="">Change password</a>
+                </div>
             </li>
             
         }

@@ -175,7 +175,7 @@ namespace Assignment_CS5.Controllers
         {
             string cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
 
-            if (!String.IsNullOrEmpty(cusEmail))
+            if (String.IsNullOrEmpty(cusEmail))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -207,7 +207,6 @@ namespace Assignment_CS5.Controllers
                 return View("Info");
             }
         }
-
         public IActionResult Login()
 		{
 			string userName = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);

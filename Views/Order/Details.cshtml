@@ -25,9 +25,9 @@
                             <td>@item.OrderDetailId</td>
                             <td><img src="~/images/products/@item.Menu.Image" class="img-thumbnail img-150" /></td>
                             <td>@item.Menu.Name</td>
-                            <td>@item.Menu.Price</td>
+                            <td>@String.Format("{0:0,0 VNĐ}", @item.Menu.Price)</td>
                             <td>@item.Quantity</td>
-                            <td>@item.Total</td>
+                            <td>@String.Format("{0:0,0 VNĐ}", @item.Total)</td>
                             <td>@item.Note</td>
                         </tr>
                     }

@@ -46,6 +46,8 @@ public class HomeController : Controller
         {
             dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
         }
+        ViewBag.SHClass = "d-none";
+        ViewBag.bgblack = "bg-black";
         return View(dataCart);
     }
     public IActionResult AddCart(int id)

@@ -44,13 +44,11 @@
                             <td>@stt</td>
                             <td><img src="~/images/products/@item.Menu.Image" class="img-thumbnail img-150" /></td>
                             <td>@item.Menu.Name</td>
-                            <td><input class="form-control" type="number" min="0" step="1" id="@txt_Id" value="@item.Quantity"/></td>
+                            <td><input class="form-control" type="number" min="0" step="1" id="@txt_Id" value="@item.Quantity" onchange="updateCart(@id)" /></td>
                             <td id="cellPrice_@id">@String.Format("{0:0,0 VNĐ}", item.Menu.Price)</td>
                             <td id="cellTotal_@id">@String.Format("{0:0,0 VNĐ}", totalSub)</td>
                             <td>
-                                <a class="nav-link" href="javascript:updateCart(@id)">Update</a>
-                                <hr>
-                                <a class="nav-link" href="javascript:deleteCart(@id)">Delete</a>
+                                <a class="nav-link btn-outline-primary link-edit" href="javascript:deleteCart(@id)">Delete</a>
                             </td>
 
                         </tr>
@@ -82,30 +80,44 @@
 </div>
 
 <script>
-        function deleteCart(id){
+        function deleteCart(id) {
             $.ajax({
                 type: "POST",
                 url: "/Home/DeleteCart",
-                data:{
+                data: {
                     id: id
                 },
-                success: function(result){
-                    $("row_"+id).hide();
-                    $("totalCart").html(result);
-                    if(result == "0"){
+                success: function (result) {
+                    $("#row_" + id).hide(); // Sử dụng selector đúng để ẩn hàng hóa
+                    $("#totalCart").html(formatCurrency(result)); // Sử dụng selector đúng để cập nhật tổng giỏ hàng
+
+                    if (result == "0") {
                         $("#cart-status").attr("class", "bi bi-basket3");
                     }
                 }
             });
         }
 
+
         function updateCart(id) {
-            var amount = $("#txtQuantity_" + id).val();
-            var price = $("#cellPrice_" + id).html();
-            var total = amount * price;
-            $("#cellTotal_" + id).html(total);
+            var amount = parseFloat($("#txtQuantity_" + id).val());
+            var price = parseFloat($("#cellPrice_" + id).text());
+            var total = amount * (price+"000");
 
 
+            $("#cellTotal_" + id).html(formatCurrency(total));
+            if (amount == 0) {
+                var confirmDelete = confirm("Bạn có muốn xoá món ăn này khỏi giỏ hàng không?");
+                if (confirmDelete){
+                    deleteCart(id);
+                }else{
+                    $("#txtQuantity_" + id).val(1);
+                    var amount = parseFloat($("#txtQuantity_" + id).val());
+                    var price = parseFloat($("#cellPrice_" + id).text());
+                    var total = amount * (price + "000");   
+                    $("#cellTotal_" + id).html(formatCurrency(total));
+                } 
+            }
             $.ajax({
                 type: "POST",
                 url: "/Home/UpdateCart",
@@ -114,13 +126,26 @@
                     quantity: amount
                 },
                 success: function (result) {
-                    $("#totalCart").html(result);
-                    if (result == "0"){
+                    if (!isNaN(result) && result >= 0) {
+                        $("#totalCart").html(formatCurrency(result));
+                    }
+
+                    if (result == "0") {
                         $("#cart-status").attr("class", "bi bi-basket3");
                     }
                 }
             });
         }
+
+
+        function formatCurrency(value) {
+            const formatter = new Intl.NumberFormat("vi-VN");
+            return formatter.format(value) + " VNĐ";
+        }
+
+
+
+
 
         function orderCart(flagLogin) {
             if (!flagLogin) {
