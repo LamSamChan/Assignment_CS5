@@ -40,8 +40,13 @@
     {
         @if (!String.IsNullOrEmpty(adminFullName))
         {
-            <li class="nav-item">
-                <a id="manage" class="nav-link text-light">Hello, @adminFullName</a>
+            <li class="nav-item dropdown">
+                <a id="manage" class="nav-link dropdown-toggle"
+                   data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, @adminFullName</a>
+                <div class="dropdown-menu">
+                    <a class="nav-link dropdown-item" asp-action="Info" asp-controller="Employee">Infomation personal</a>
+                    <a class="nav-link dropdown-item" asp-controller="Employee" asp-action="ChangePassword">Change password</a>
+                </div>
             </li>
         }
         @if (!String.IsNullOrEmpty(cusFullName))
@@ -51,15 +56,13 @@
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello, @cusFullName</a>
                 <div class="dropdown-menu">
                     <a class="nav-link dropdown-item" asp-action="Info" asp-controller="Customer">Infomation personal</a>
-                    <a class="nav-link dropdown-item" asp-controller="" asp-action="">Change password</a>
+                    <a class="nav-link dropdown-item" asp-controller="Customer" asp-action="ChangePassword">Change password</a>
                 </div>
             </li>
             
         }
 
-        <li class="nav-item">
-            <a asp-action="History" asp-controller="Order" class="nav-link text-light">Đơn hàng</a>
-            </li>
+       
 
         @if(adminRole == "Admin" || adminRole=="Employee")
         {
@@ -70,6 +73,9 @@
             </li>
         } else
         {
+            <li class="nav-item">
+                <a asp-action="History" asp-controller="Order" class="nav-link text-light">Đơn hàng</a>
+            </li>
             <li class="nav-item  ">
                 <form class="mt-2" asp-area="" asp-controller="Customer" asp-action="Logout" method="post" id="logoutForm">
                     <button id="logout" type="submit" class="btn btn-primary ml-xl-4">Logout</button>

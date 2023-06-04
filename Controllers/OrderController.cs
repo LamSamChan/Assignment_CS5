@@ -11,6 +11,7 @@ namespace Assignment_CS5.Controllers
     {
         private readonly MyDbContext _context;
         private readonly IOrderSvc _service;
+        private readonly ICustomerSvc _cusService;
         private int isAuthenticate;
         public int IsAuthenticate
         {
@@ -35,10 +36,11 @@ namespace Assignment_CS5.Controllers
             }
             set { this.isAuthenticate = value; }
         }
-        public OrderController(MyDbContext context, IOrderSvc service)
+        public OrderController(MyDbContext context, IOrderSvc service, ICustomerSvc cusService)
         {
             this._context = context;
             this._service = service;
+            this._cusService = cusService;
         }
         public IActionResult Index(string type, string searchString, DateTime searchDate, int page)
         {
@@ -111,6 +113,14 @@ namespace Assignment_CS5.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (order.Status.ToString() == "Cancelled")
+                {
+                    var cusId = order.CustomerId;
+                    var cus = _cusService.GetById(cusId);
+                    int point = Convert.ToInt32(cus.Point - (order.Total / 1000));
+                    cus.Point = point;
+                    _cusService.UpdateCustomer(cus);
+                }
                 _service.UpdateOrder(order);
                 return RedirectToAction("Index");
             }

@@ -71,8 +71,58 @@ namespace Assignment_CS5.Controllers
 
         }
 
+		public IActionResult ChangePassword()
+		{
+			string cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+
+			if (String.IsNullOrEmpty(cusEmail))
+			{
+				return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
 
 
+		}
+        public IActionResult ChangePw(ChangePassword changePassword)
+        {
+         	if (ModelState.IsValid)
+			{
+				var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
+				var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
+                int result = _service.ChangePassword(cusId, changePassword);
+                if (result == 0)
+                {
+					TempData["Message"] = "Old password is not correct";
+					TempData["MessageType"] = "danger";
+					ViewBag.SHClass = "d-none";
+					ViewBag.bgblack = "bg-black";
+                    return View("ChangePassword");
+                }
+                else
+                {
+					ViewBag.SHClass = "d-none";
+					ViewBag.bgblack = "bg-black";
+					TempData["SuccessMessage"] = "Change password successfully !";
+
+					return RedirectToAction("Index", "Home");
+				}
+			}
+			else
+			{
+				TempData["Message"] = "An error occurred";
+				TempData["MessageType"] = "danger";
+				ViewBag.SHClass = "d-none";
+				ViewBag.bgblack = "bg-black";
+				return View("ChangePassword");
+			}
+
+
+
+
+		}
         public IActionResult SignUp()
         {
                 return View();
@@ -195,7 +245,7 @@ namespace Assignment_CS5.Controllers
             if (ModelState.IsValid)
             {
                 _service.UpdateCustomer(customer);
-                TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+                TempData["SuccessMessage"] = "Updated information successfully!!";
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -264,7 +314,11 @@ namespace Assignment_CS5.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Logout()
 		{
-			HttpContext.Session.Clear();
+			HttpContext.Session.SetString(SessionKey.Customer.CusEmail, "");
+			HttpContext.Session.SetString(SessionKey.Customer.CusFullName, "");
+			HttpContext.Session.SetString(SessionKey.Customer.Role, "");
+			HttpContext.Session.SetString(SessionKey.Customer.CusContext,
+				JsonConvert.SerializeObject(""));
 			return RedirectToAction("Index", "Home");
 		}
 	}

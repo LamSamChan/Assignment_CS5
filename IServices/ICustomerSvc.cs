@@ -11,5 +11,7 @@ namespace Assignment_CS5.IServices
         public int UpdateCustomer(Customer customer);
         Customer Login(ViewLogin viewLogin);
         public int IsFieldExist(Customer customer);
-    }
+		public int ChangePassword(int cusId,ChangePassword changePassword);
+
+	}
 }

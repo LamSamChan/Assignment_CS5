@@ -61,7 +61,8 @@ public class HomeController : Controller
                 new ViewCart
                 {
                     Menu = item,
-                    Quantity = 1
+                    Quantity = 1,
+                    Note =""
                 }
             };
             HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
@@ -94,7 +95,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdateCart(int id, int  quantity)
+    public IActionResult UpdateCart(int id, int  quantity,string note)
     {
         var cart = HttpContext.Session.GetString("cart");
         double total = 0;
@@ -105,7 +106,9 @@ public class HomeController : Controller
             {
                 if (dataCart[i].Menu.ProductId == id)
                 {
+                    dataCart[i].Note = note;
                     dataCart[i].Quantity = quantity;
+                    
                     break;
                 }
             }
@@ -147,13 +150,17 @@ public class HomeController : Controller
             return BadRequest();
         }
         var cart = HttpContext.Session.GetString("cart");
-        if (cart != null && cart.Count() > 0)
+        if (!String.IsNullOrEmpty(cart) && cart.Count() > 0)
         {
             #region DonHang
             var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
             var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
 
             double total = Sum();
+            var point = total / 1000;
+            var cus = _customerSvc.GetById(cusId);
+            cus.Point = Convert.ToInt32(point);
+            _customerSvc.UpdateCustomer(cus);
 
             var order = new Order()
             {
@@ -177,7 +184,7 @@ public class HomeController : Controller
                     ProductId = dataCart[i].Menu.ProductId,
                     Quantity = dataCart[i].Quantity,
                     Total = dataCart[i].Menu.Price * dataCart[i].Quantity,
-                    Note = "",
+                    Note = dataCart[i].Note,
                 };
                 //donhang.DonhangChitiets.Add(chitiet);
                 _orderDetailSvc.AddOrderDetail(details);

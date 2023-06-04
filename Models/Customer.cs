@@ -67,5 +67,5 @@ namespace Assignment_CS5.Models
         [Compare("Password", ErrorMessage = "Password not match!")]
         [Display(Name = "Confirm password")]
         public string? ConfirmPassword { get; set; }
-    }
+	}
 }
