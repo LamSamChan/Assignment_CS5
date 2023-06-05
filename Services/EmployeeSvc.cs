@@ -173,5 +173,21 @@ namespace Assignment_CS5.Services
 
             return 0;
         }
+
+		public int ChangePassword(int empId, ChangePassword changePassword)
+		{
+			var emp = GetById(empId);
+			if (emp.Password != _helper.Encode(changePassword.Password))
+			{
+				return 0;
+			}
+			else
+			{
+				emp.Password = _helper.Encode(changePassword.NewPassword);
+                UpdateEmployee(emp);
+				return 1;
+
+			}
+		}
 	}
 }

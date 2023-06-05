@@ -11,5 +11,7 @@ namespace Assignment_CS5.IServices
         public int UpdateEmployee(Employee employee);
         public Employee Login (ViewLogin viewLogin);
         public int IsFieldExist(Employee employee);
-    }
+		public int ChangePassword(int empId, ChangePassword changePassword);
+
+	}
 }

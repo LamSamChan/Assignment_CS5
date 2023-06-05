@@ -8,6 +8,8 @@
 @{
     string cusEmail = Context.Session.GetString(SessionKey.Customer.CusEmail);
     string cusName = Context.Session.GetString(SessionKey.Customer.CusFullName);
+    string emp = Context.Session.GetString(SessionKey.Employee.UserName);
+
 }
 <div style="margin-top:170px">
 
@@ -24,7 +26,8 @@
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Total</th>
+                    <th>Total</th
+                    <th>Note</th>
                     <th></th>
                 </tr>
             </thead>
@@ -47,6 +50,7 @@
                             <td><input class="form-control" type="number" min="0" step="1" id="@txt_Id" value="@item.Quantity" onchange="updateCart(@id)" /></td>
                             <td id="cellPrice_@id">@String.Format("{0:0,0 VNĐ}", item.Menu.Price)</td>
                             <td id="cellTotal_@id">@String.Format("{0:0,0 VNĐ}", totalSub)</td>
+                            <td><textarea class="form-control" value="@item.Note" id="cellNote_@id" onkeyup="updateCart(@id)" onchange="updateCart(@id)"></textarea></td>
                             <td>
                                 <a class="nav-link btn-outline-primary link-edit" href="javascript:deleteCart(@id)">Delete</a>
                             </td>
@@ -67,6 +71,11 @@
                     if (!String.IsNullOrEmpty(cusEmail))
                     {
                         <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
+                    }
+                    else if (!String.IsNullOrEmpty(emp))
+                    {
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <span class="text-danger mt-2">Please log in to your customer account to place an order</span>
                     }
                     else
                     {
@@ -102,12 +111,13 @@
         function updateCart(id) {
             var amount = parseFloat($("#txtQuantity_" + id).val());
             var price = parseFloat($("#cellPrice_" + id).text());
+            var note = $("#cellNote_" + id).val();
             var total = amount * (price+"000");
 
 
             $("#cellTotal_" + id).html(formatCurrency(total));
             if (amount == 0) {
-                var confirmDelete = confirm("Bạn có muốn xoá món ăn này khỏi giỏ hàng không?");
+                var confirmDelete = confirm("Do you want to remove this dish from the cart?");
                 if (confirmDelete){
                     deleteCart(id);
                 }else{
@@ -123,7 +133,8 @@
                 url: "/Home/UpdateCart",
                 data: {
                     id: id,
-                    quantity: amount
+                    quantity: amount,
+                    note : note
                 },
                 success: function (result) {
                     if (!isNaN(result) && result >= 0) {

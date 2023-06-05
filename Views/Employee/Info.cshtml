@@ -1,6 +1,6 @@
-﻿@model Assignment_CS5.Models.Customer
+﻿@model Assignment_CS5.Models.Employee
 @{
-    ViewData["Title"] = "Customer Info";
+    ViewData["Title"] = "Personal Info";
 }
 
 <div class="form-body" style="margin-top:140px">
@@ -8,16 +8,23 @@
         <div class="form-holder">
             <div class="form-content justify-content-center">
                 <div class="form-items">
-                    <h3>Edit Customer</h3>
+                    <h3>Personal Infomation</h3>
                     @if (TempData["Message"] != null)
                     {
                         <div class="alert alert-@TempData["MessageType"]" role="alert">
                             @TempData["Message"]
                         </div>
                     }
-                    <form asp-action="UpdateForCus" asp-controller="Customer" method="post" enctype="multipart/form-data">
+                    <form asp-action="UpdateForEmp" asp-controller="Employee" method="post" enctype="multipart/form-data">
                         <div class="col-md-12">
-                            <input class="form-control bg-light text-dark" asp-for="CustomerID" required readonly>
+                            <div class="row justify-content-center m-3"><img src="~/images/avatars/@Model.Image" class="img-thumbnail img-150" /></div>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control bg-light text-dark" asp-for="EmployeeID" required readonly>
+                        </div>
+                        <div class="d-none">
+                            <input class="form-control bg-light text-dark" asp-for="UserName" placeholder="User name" required readonly>
+                            <span class="text-danger" asp-validation-for="UserName"></span>
                         </div>
                         <div class="col-md-12">
                             <input class="form-control bg-light text-dark" asp-for="FullName" placeholder="Full name" required readonly>
@@ -33,6 +40,12 @@
                             </select>
                             <span class="text-danger" asp-validation-for="Gender"></span>
                         </div>
+                        <div class="d-none">
+                            <select asp-for="Position" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<Position>()" required>
+                                <option value="" disabled>...Select position</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Position"></span>
+                        </div>
                         <div class="col-md-12  mt-3">
                             <input class="form-control bg-light text-dark" type="date" asp-for="DateOfBirth" placeholder="Date of birth" required >
                             <span class="text-danger" asp-validation-for="DateOfBirth"></span>
@@ -41,10 +54,10 @@
                             <input class="form-control bg-light text-dark" asp-for="PhoneNumber" placeholder="Phone number" required>
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
-                        <div class="col-md-12">
-                            <label asp-for="Point"></label>
-                            <input class="form-control bg-light text-dark" asp-for="Point" placeholder="Point" required readonly>
-                            <span class="text-danger" asp-validation-for="Point"></span>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label">Image</label>
+                            <input class="form-control bg-light text-dark" asp-for="ImageFile" placeholder="Image" type="file" accept="image/*" multiple="multiple">
+                            <span class="text-danger" asp-validation-for="ImageFile"></span>
                         </div>
                         <div class="d-none">
                             <div class="col-md-12">
@@ -56,10 +69,6 @@
                                 <input class="form-control" asp-for="ConfirmPassword" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" value="@Model.Password">
                                 <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                             </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <textarea class="form-control" asp-for="Address" placeholder="Address" required ></textarea>
-                            <span class="text-danger" asp-validation-for="Address"></span>
                         </div>
                         <div class="form-button mt-3">
                             <button id="submit" type="submit" class="btn btn-success">Save</button>

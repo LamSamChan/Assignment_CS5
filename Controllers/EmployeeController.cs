@@ -12,6 +12,8 @@ using Assignment_CS5.IServices;
 using Assignment_CS5.Helpers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Assignment_CS5.Constants;
+using Assignment_CS5.ViewModels;
+using Newtonsoft.Json;
 
 namespace Assignment_CS5.Controllers
 {
@@ -71,10 +73,57 @@ namespace Assignment_CS5.Controllers
 
         }
 
+		public IActionResult ChangePassword()
+		{
+			string empEmail = HttpContext.Session.GetString(SessionKey.Employee.UserName);
+
+			if (String.IsNullOrEmpty(empEmail))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			else
+			{
+				return View();
+			}
 
 
-        // GET: Menu/Create
-        public IActionResult Create()
+		}
+        public IActionResult ChangePw(ChangePassword changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var empContext = HttpContext.Session.GetString(SessionKey.Employee.EmployeeContext);
+                var empId = JsonConvert.DeserializeObject<Employee>(empContext).EmployeeID;
+                int result = _service.ChangePassword(empId, changePassword);
+                if (result == 0)
+                {
+                    TempData["Message"] = "Old password is not correct";
+                    TempData["MessageType"] = "danger";
+                    ViewBag.SHClass = "d-none";
+                    ViewBag.bgblack = "bg-black";
+                    return View("ChangePassword");
+                }
+                else
+                {
+                    ViewBag.SHClass = "d-none";
+                    ViewBag.bgblack = "bg-black";
+                    TempData["SuccessMessage"] = "Change password successfully !";
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                TempData["Message"] = "An error occurred";
+                TempData["MessageType"] = "danger";
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
+                return View("ChangePassword");
+            }
+
+        }
+			// GET: Menu/Create
+			public IActionResult Create()
         {
 
             if (IsAuthenticate == 1)
@@ -200,7 +249,7 @@ namespace Assignment_CS5.Controllers
                         TempData["MessageType"] = "danger";
                         ViewBag.SHClass = "d-none";
                         ViewBag.bgblack = "bg-black";
-                        return View("Edit", existingEmp);
+                        return View("Edit");
                     }
                 }
                 else
@@ -209,16 +258,16 @@ namespace Assignment_CS5.Controllers
                 }
                 _service.UpdateEmployee(employee);
                 return RedirectToAction("Index");
-        }
+            }
             else
             {
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
                 TempData["Message"] = "An error occurred";
                 TempData["MessageType"] = "danger";
-                return View("Edit", existingEmp);
-    }
-}
+                return View("Edit");
+            }
+        }
 
         public IActionResult Edit(int Id)
         {
@@ -239,5 +288,67 @@ namespace Assignment_CS5.Controllers
             }
         }
 
-    }
+		public IActionResult Info()
+		{
+			string emp = HttpContext.Session.GetString(SessionKey.Employee.UserName);
+
+			if (String.IsNullOrEmpty(emp))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			var empContext = HttpContext.Session.GetString(SessionKey.Employee.EmployeeContext);
+			var empId = JsonConvert.DeserializeObject<Employee>(empContext).EmployeeID;
+			var employee = _service.GetById(empId);
+			ViewBag.SHClass = "d-none";
+			ViewBag.bgblack = "bg-black";
+			return View(employee);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult UpdateForEmp(Employee employee)
+		{
+            Employee existingEmp = _service.GetById(employee.EmployeeID);
+            if (ModelState.IsValid)
+            {
+                if (employee.ImageFile != null)
+                {
+                    if (employee.ImageFile.ContentType.StartsWith("image/"))
+                    {
+                        if (employee.ImageFile.Length > 0)
+                        {
+                            string rootPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                            _helper.UploadImage(employee.ImageFile, rootPath, "avatars");
+                            employee.Image = employee.ImageFile.FileName;
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Please upload your photo file";
+                        TempData["MessageType"] = "danger";
+                        ViewBag.SHClass = "d-none";
+                        ViewBag.bgblack = "bg-black";
+                        return View("Info");
+                    }
+                }
+                else
+                {
+                    employee.Image = existingEmp.Image;
+                }
+                _service.UpdateEmployee(employee);
+                TempData["SuccessMessage"] = "Updated information successfully!";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["Message"] = "An error occurred";
+                TempData["MessageType"] = "danger";
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
+                return View("Info");
+            }
+        }
+
+	}
 }

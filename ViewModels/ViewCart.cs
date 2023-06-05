@@ -6,5 +6,6 @@ namespace Assignment_CS5.ViewModels
     {
         public Menu Menu { get; set; }
         public int Quantity { get; set; }
+        public string? Note { get; set; }
     }
 }

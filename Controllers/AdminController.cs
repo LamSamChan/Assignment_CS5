@@ -21,7 +21,9 @@ namespace Assignment_CS5.Controllers
 		public IActionResult Login()
 		{
 			string userName = HttpContext.Session.GetString(SessionKey.Employee.UserName);
-			if (!String.IsNullOrEmpty(userName))
+            string cus = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
+
+            if (!String.IsNullOrEmpty(userName) || !String.IsNullOrEmpty(cus))
 			{
 				return RedirectToAction("Index", "Home");
 			}
@@ -80,7 +82,11 @@ namespace Assignment_CS5.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Logout()
 		{
-			HttpContext.Session.Clear();
+			HttpContext.Session.SetString(SessionKey.Employee.UserName, "");
+			HttpContext.Session.SetString(SessionKey.Employee.FullName, "");
+			HttpContext.Session.SetString(SessionKey.Employee.Role, "");
+			HttpContext.Session.SetString(SessionKey.Employee.EmployeeContext,
+				JsonConvert.SerializeObject(""));
 			return RedirectToAction("Index", "Home");
 		}
 	}
