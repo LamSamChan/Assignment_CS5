@@ -26,7 +26,7 @@
                     <th>Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Total</th
+                    <th>Total</th>
                     <th>Note</th>
                     <th></th>
                 </tr>
@@ -50,7 +50,7 @@
                             <td><input class="form-control" type="number" min="0" step="1" id="@txt_Id" value="@item.Quantity" onchange="updateCart(@id)" /></td>
                             <td id="cellPrice_@id">@String.Format("{0:0,0 VNĐ}", item.Menu.Price)</td>
                             <td id="cellTotal_@id">@String.Format("{0:0,0 VNĐ}", totalSub)</td>
-                            <td><textarea class="form-control" value="@item.Note" id="cellNote_@id" onkeyup="updateCart(@id)" onchange="updateCart(@id)"></textarea></td>
+                            <td><textarea class="form-control" id="cellNote_@id" onkeyup="updateCart(@id)" onchange="updateCart(@id)">@item.Note</textarea></td>
                             <td>
                                 <a class="nav-link btn-outline-primary link-edit" href="javascript:deleteCart(@id)">Delete</a>
                             </td>
@@ -132,9 +132,9 @@
                 type: "POST",
                 url: "/Home/UpdateCart",
                 data: {
-                    id: id,
+                     id: id,
                     quantity: amount,
-                    note : note
+                    note: note
                 },
                 success: function (result) {
                     if (!isNaN(result) && result >= 0) {

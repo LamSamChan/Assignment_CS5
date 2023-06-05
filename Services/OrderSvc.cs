@@ -190,6 +190,7 @@ namespace Assignment_CS5.Services
 				existingOrder.Status = order.Status;
 				existingOrder.Note = order.Note;
 				existingOrder.Delete = order.Delete;
+				existingOrder.PointAdded = order.PointAdded;
 				// Lưu thay đổi vào database
 				_context.SaveChanges();
 				status = order.OrderId;

@@ -95,7 +95,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult UpdateCart(int id, int  quantity,string note)
+    public IActionResult UpdateCart(int id, int quantity, string note)
     {
         var cart = HttpContext.Session.GetString("cart");
         double total = 0;
@@ -108,18 +108,17 @@ public class HomeController : Controller
                 {
                     dataCart[i].Note = note;
                     dataCart[i].Quantity = quantity;
-                    
                     break;
                 }
             }
-            HttpContext.Session.SetString("cart",JsonConvert.SerializeObject(dataCart));
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
 
             total = Sum();
             return Ok(total);
-
         }
         return BadRequest();
     }
+
     public IActionResult DeleteCart(int id)
     {
         double total = 0;
@@ -157,10 +156,7 @@ public class HomeController : Controller
             var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
 
             double total = Sum();
-            var point = total / 1000;
-            var cus = _customerSvc.GetById(cusId);
-            cus.Point = Convert.ToInt32(point);
-            _customerSvc.UpdateCustomer(cus);
+            
 
             var order = new Order()
             {

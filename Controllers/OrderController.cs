@@ -2,6 +2,7 @@
 using Assignment_CS5.Database;
 using Assignment_CS5.IServices;
 using Assignment_CS5.Models;
+using Assignment_CS5.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -113,14 +114,27 @@ namespace Assignment_CS5.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (order.Status.ToString() == "Cancelled")
+                var cusId = order.CustomerId;
+                var cus = _cusService.GetById(cusId);
+                if (order.PointAdded == true)
                 {
-                    var cusId = order.CustomerId;
-                    var cus = _cusService.GetById(cusId);
-                    int point = Convert.ToInt32(cus.Point - (order.Total / 1000));
-                    cus.Point = point;
-                    _cusService.UpdateCustomer(cus);
+                    if (order.Status.ToString() == "Cancelled" || order.Delete == true)
+                    {
+                        int point = Convert.ToInt32(cus.Point - (order.Total / 1000));
+                        cus.Point = point;
+                        order.PointAdded = false;
+                    }
+                    
+                }else
+                {
+                    if (order.Status.ToString() != "Cancelled" && order.Delete == false)
+                    {
+                        int point = Convert.ToInt32(cus.Point + (order.Total / 1000));
+                        cus.Point = point;
+                        order.PointAdded = true;
+                    }     
                 }
+                _cusService.UpdateCustomer(cus);
                 _service.UpdateOrder(order);
                 return RedirectToAction("Index");
             }

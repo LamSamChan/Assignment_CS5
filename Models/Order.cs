@@ -49,6 +49,8 @@ namespace Assignment_CS5.Models
         [Display(Name = "Delete")]
         public bool Delete { get; set; }
         
+        public bool PointAdded { get; set; }
+
         public Customer? Customer { get; set; }
         public ICollection<OrderDetails>? OrderDetails { get; set; }
 
