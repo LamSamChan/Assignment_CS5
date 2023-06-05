@@ -11,6 +11,41 @@
     string emp = Context.Session.GetString(SessionKey.Employee.UserName);
 
 }
+
+@if (TempData["FailMessage"] != null)
+{
+    <!-- SweetAlert CDN -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            swal({
+                title: 'error',
+                text: '@Html.Raw(TempData["FailMessage"])',
+                icon: 'success',
+                button: 'error'
+            });
+        });
+    </script>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <!-- SweetAlert CDN -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            swal({
+                title: 'Success',
+                text: '@Html.Raw(TempData["SuccessMessage"])',
+                icon: 'success',
+                button: 'OK'
+            });
+        });
+    </script>
+}
 <div style="margin-top:170px">
 
     <div class="row m-5 justify-content-center">

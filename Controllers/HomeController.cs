@@ -155,6 +155,15 @@ public class HomeController : Controller
             var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
             var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
 
+            List<ViewCart> dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
+            for (int i = 0; i < dataCart.Count; i++)
+            {
+                if (dataCart[i].Menu.Status)
+                {
+                    TempData["FailMessage"] = @"Change password successfully !";
+                    return View("ViewCart");
+                }
+            }
             double total = Sum();
             
 
@@ -171,7 +180,6 @@ public class HomeController : Controller
             int orderId = order.OrderId;
 
             #region Chitiet
-            List<ViewCart> dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
             for (int i = 0; i < dataCart.Count; i++)
             {
                 OrderDetails details = new OrderDetails()
