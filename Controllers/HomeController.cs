@@ -149,7 +149,7 @@ public class HomeController : Controller
             return BadRequest();
         }
         var cart = HttpContext.Session.GetString("cart");
-        if (!String.IsNullOrEmpty(cart) && cart.Count() > 0)
+        if (cart != "[]")
         {
             #region DonHang
             var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
@@ -158,10 +158,12 @@ public class HomeController : Controller
             List<ViewCart> dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
             for (int i = 0; i < dataCart.Count; i++)
             {
-                if (dataCart[i].Menu.Status)
+                if (dataCart[i].Menu.Status != _menuSvc.GetById(dataCart[i].Menu.ProductId).Status)
                 {
-                    TempData["FailMessage"] = @"Change password successfully !";
-                    return View("ViewCart");
+                    var failMessage = $"{dataCart[i].Menu.Name} is out of stock!";
+                    return Json(new { success = false, message = failMessage });
+
+
                 }
             }
             double total = Sum();
@@ -199,9 +201,9 @@ public class HomeController : Controller
 
             HttpContext.Session.Remove("cart");
 
-            return Ok();
+            return Json(new { success = true });
         }
-        return BadRequest();
+        return Json(new { success = false });
     }
 
 
