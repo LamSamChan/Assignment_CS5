@@ -9,11 +9,13 @@
     string cusEmail = Context.Session.GetString(SessionKey.Customer.CusEmail);
     string cusName = Context.Session.GetString(SessionKey.Customer.CusFullName);
     string emp = Context.Session.GetString(SessionKey.Employee.UserName);
+    string cart = Context.Session.GetString("cart");
 
 }
 <!-- SweetAlert CDN -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
 
@@ -83,6 +85,11 @@
                     {
                         <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
                         <span class="text-danger mt-2">Please log in to your customer account to place an order</span>
+                    }
+                    else if(cart == "[]" || String.IsNullOrEmpty(cart))
+                    {
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <span class="text-danger mt-2">Your cart is empty !</span>
                     }
                     else
                     {
@@ -166,27 +173,26 @@
 
 
         function orderCart(flagLogin) {
-            if (!flagLogin) {
-                alert("Bạn cần đăng nhập để đặt hàng.");
-                return false;
-            }
+    if (!flagLogin) {
+        alert("Bạn cần đăng nhập để đặt hàng.");
+        return false;
+    }
 
-            $.ajax({
-                type: "POST",
-                url: "/Home/OrderCart",
-                data: {},
-                success: function (result) {
-                    if (result.success) {
-                        window.location = "/Order/History";
-                    } else {
-                        swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
-                    }
-                },
-                error: function () {
-                    swal("Infomation", "Your cart is empty!", "error");
-                }
-            });
-        }
+    $.ajax({
+        type: "POST",
+        url: "/Home/OrderCart",
+        data: {},
+        success: function (result) {
+    if (result.success) {
+        window.location = "/Order/History";
+    } else {
+        swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
+    }
+    },
+
+    });
+}
+
 
 
 

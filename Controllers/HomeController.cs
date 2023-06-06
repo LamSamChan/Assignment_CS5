@@ -203,7 +203,7 @@ public class HomeController : Controller
 
             return Json(new { success = true });
         }
-        return Json(new { success = false });
+        return BadRequest();
     }
 
 
