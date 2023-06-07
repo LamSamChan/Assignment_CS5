@@ -40,12 +40,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-app.UseRouting();
-app.UseAuthorization();
 app.UseCors(builder => builder
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
+app.UseRouting();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
