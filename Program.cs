@@ -15,6 +15,8 @@ builder.Services.AddTransient<IEmployeeSvc, EmployeeSvc>();
 builder.Services.AddTransient<ICustomerSvc, CustomerSvc>();
 builder.Services.AddTransient<IOrderSvc, OrderSvc>();
 builder.Services.AddTransient<IOrderDetailSvc, OrderDetailSvc>();
+builder.Services.AddTransient<IPayPalService, PayPalService>();
+
 
 builder.Services.AddTransient<IUploadHelper, UploadHelper>();
 builder.Services.AddTransient<IEncodeHelper, EncodeHelper>();
@@ -23,6 +25,9 @@ builder.Services.AddSession(option =>
 {
     option.IdleTimeout = TimeSpan.FromMinutes(30);
 });
+
+builder.Services.AddCors();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,6 +42,10 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 app.UseAuthorization();
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.MapControllerRoute(
     name: "default",

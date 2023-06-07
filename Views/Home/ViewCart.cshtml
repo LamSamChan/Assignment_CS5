@@ -80,6 +80,7 @@
                     if (!String.IsNullOrEmpty(cusEmail))
                     {
                         <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderByPaypal(true);">Paypal</a>
                     }
                     else if (!String.IsNullOrEmpty(emp))
                     {
@@ -173,26 +174,47 @@
 
 
         function orderCart(flagLogin) {
-    if (!flagLogin) {
-        alert("Bạn cần đăng nhập để đặt hàng.");
-        return false;
-    }
+            if (!flagLogin) {
+                alert("Bạn cần đăng nhập để đặt hàng.");
+            return false;
+            }
 
-    $.ajax({
-        type: "POST",
-        url: "/Home/OrderCart",
-        data: {},
-        success: function (result) {
-    if (result.success) {
-        window.location = "/Order/History";
-    } else {
-        swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
-    }
-    },
+            $.ajax({
+                type: "POST",
+                url: "/Home/OrderCart",
+                data: {},
+                success: function (result) {
+            if (result.success) {
+                window.location = "/Order/History";
+            } else {
+                swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
+            }
+            },
 
-    });
-}
+            });
+        }
 
+
+        function orderByPaypal(flagLogin) {
+            if (!flagLogin) {
+                alert("Bạn cần đăng nhập để đặt hàng.");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/CreatePaymentUrl",
+                data: {},
+                success: function (result) {
+                    if (result.success) {
+                        window.location = "/Order/History";
+                    } else {
+                        swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
+                    }
+                },
+
+            });
+        }
 
 
 

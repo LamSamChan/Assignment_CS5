@@ -8,6 +8,7 @@ using Assignment_CS5.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Assignment_CS5.Constants;
+using Assignment_CS5.Services;
 
 namespace Assignment_CS5.Controllers;
 
@@ -20,9 +21,9 @@ public class HomeController : Controller
     private readonly ICustomerSvc _customerSvc;
     private readonly IOrderSvc _orderSvc;
     private readonly IOrderDetailSvc _orderDetailSvc;
-
+    private readonly IPayPalService _payPalService;
     public HomeController(ILogger<HomeController> logger, MyDbContext context, IMenuSvc menuSvc, IWebHostEnvironment webHostEnvironment,
-        ICustomerSvc customerSvc, IOrderSvc orderSvc, IOrderDetailSvc orderDetailSvc)
+        ICustomerSvc customerSvc, IOrderSvc orderSvc, IOrderDetailSvc orderDetailSvc, IPayPalService payPalService)
     {
         _logger = logger;
         _context = context;
@@ -31,8 +32,24 @@ public class HomeController : Controller
         _customerSvc = customerSvc; 
         _orderSvc = orderSvc;
         _orderDetailSvc = orderDetailSvc;
+        _payPalService = payPalService;
+    }
+    public async Task<IActionResult> CreatePaymentUrl()
+    {
+        var cart = HttpContext.Session.GetString("cart");
+        double total = Sum();
+        List<ViewCart> model = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
+        var url = await _payPalService.CreatePaymentUrl(model,total);
+
+        return Redirect(url);
     }
 
+    public IActionResult PaymentCallback()
+    {
+        var response = _payPalService.PaymentExecute(Request.Query);
+
+        return Json(response);
+    }
     public IActionResult Index()
     {
         ViewBag.SHClass = "d-block";
