@@ -1,6 +1,6 @@
 ﻿namespace Assignment_CS5.Models;
 
-public class PaymentInformationModel
+public class PaymentInformation
 {
     public string OrderType { get; set; }
     public int Quantity { get; set; }

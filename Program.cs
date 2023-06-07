@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddDataAnnotationsLocalization(); ;
+builder.Services.AddControllersWithViews().AddDataAnnotationsLocalization();
+
 var connectionString = builder.Configuration.GetConnectionString("connection");
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddTransient<IMenuSvc,MenuSvc>();
@@ -26,14 +27,7 @@ builder.Services.AddSession(option =>
     option.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
-builder.Services.AddCors( option => option.AddPolicy(
-        name:"FoodHut",
-        policy =>
-        {
-            policy.WithOrigins("https://localhost:44326");
-            policy.WithOrigins("https://www.sandbox.paypal.com");
-        }
-    ));
+builder.Services.AddCors();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -47,8 +41,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-app.UseCors("FoodHut");
 app.UseRouting();
+app.UseCors(builder => builder
+       .AllowAnyHeader()
+       .AllowAnyMethod()
+       .AllowAnyOrigin()
+    );
+
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -10,7 +10,7 @@ namespace Assignment_CS5.Models
         public int OrderDetailId { get; set; }
 
         [ForeignKey("Order")]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         [ForeignKey("Menu")]
         public int ProductId { get; set; }
 

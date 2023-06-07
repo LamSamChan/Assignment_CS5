@@ -23,7 +23,7 @@ namespace Assignment_CS5.Models
     {
         [Key]
         [Column("Id")]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
 
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
@@ -41,7 +41,8 @@ namespace Assignment_CS5.Models
         [Required(ErrorMessage = "You need to select an order status")]
         [Display(Name ="Status")]
         public OrderStatus Status { get; set; }
-
+        [Display(Name = "Method")]
+        public string Method { get; set; }
         [StringLength(250)]
         [Display(Name ="Note")]
         public string? Note { get; set; }

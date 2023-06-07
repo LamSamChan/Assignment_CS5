@@ -17,9 +17,9 @@ namespace Assignment_CS5.Services
 		{
 			_context = context;
 		}
-		public int AddOrder(Order order)
+		public string AddOrder(Order order)
 		{
-			int status = 0;
+			string status = "";
 			try
 			{
 
@@ -29,7 +29,7 @@ namespace Assignment_CS5.Services
 			}
 			catch
 			{
-				status = 0;
+				status = "";
 			}
 			return status;
 		}
@@ -160,7 +160,7 @@ namespace Assignment_CS5.Services
 		{
 			try
 			{
-				return _context.Orders.Where(o => o.OrderId == Id)
+				return _context.Orders.Where(o => o.OrderId == Id.ToString())
 					.Include(o => o.Customer)
 					.Include(o => o.OrderDetails)
 					.ThenInclude(o => o.Menu)
@@ -172,9 +172,9 @@ namespace Assignment_CS5.Services
 			}
 		}
 
-		public int UpdateOrder(Order order)
+		public string UpdateOrder(Order order)
 		{
-			int status = 0;
+            string status = "";
 			try
 			{
 				// Lấy đối tượng từ database dựa vào id
@@ -183,7 +183,7 @@ namespace Assignment_CS5.Services
 				// Kiểm tra xem đối tượng có tồn tại trong database không
 				if (existingOrder == null)
 				{
-					return 0;
+					return "";
 				}
 
 				// Cập nhật thông tin của đối tượng
@@ -197,7 +197,7 @@ namespace Assignment_CS5.Services
 			}
 			catch (System.Exception ex)
 			{
-				status = 0;
+				status = "";
 			}
 			return status;
 		}
@@ -207,7 +207,7 @@ namespace Assignment_CS5.Services
 			List<OrderDetails> details = new List<OrderDetails>();
 			foreach (var item in _context.OrderDetails.Include(x => x.Menu).Include(x => x.Order).ToList())
 			{
-				if (item.OrderId == id)
+				if (item.OrderId == id.ToString())
 				{
 					details.Add(item);
 				}

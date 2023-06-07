@@ -23,6 +23,7 @@
                         <th>ID</th>
                         <th>Date</th>
                         <th>Total</th>
+                        <th>Method</th>
                         <th>Status</th>
                         <th>Note</th>
                         <th></th>
@@ -37,6 +38,7 @@
                             <td>@item.OrderId</td>
                             <td>@item.OrderDate.ToString("hh:mm:ss dd/MM/yyyy")</td>
                             <td>@String.Format("{0:0,0 VNĐ}", item.Total)</td>
+                            <td>@item.Method</td>
                             <td>@item.Status</td>
                             <td>@item.Note</td>
                             <td>

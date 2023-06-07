@@ -79,22 +79,28 @@
                 @{
                     if(cart == "[]" || String.IsNullOrEmpty(cart))
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Cash</a>
                         <span class="text-danger mt-2">Your cart is empty !</span>
                     }
                     else if (!String.IsNullOrEmpty(cusEmail))
                     {
-                        <a id="order" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
-                        <a id="paypal" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderByPaypal();">Paypal</a>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a id="order" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Cash</a>
+                            </div>
+                            <div class="col-lg-6">
+                                <a id="paypal" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderByPaypal();">Paypal</a>
+                            </div>
+                        </div>
                     }
                     else if (!String.IsNullOrEmpty(emp))
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Cash</a>
                         <span class="text-danger mt-2">Please log in to your customer account to place an order</span>
                     }
                     else 
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Cash</a>
                         <span class="text-danger mt-2">You need to log in before placing an order</span>
                     }
 
@@ -199,18 +205,15 @@
 
 
         function orderByPaypal() {
-            $.ajax({
-                type: "POST",
-                url: "/Home/CreatePaymentUrl",
-                data: {},
-                success: function (result) {
-                    if (result.success) {
-                        window.location = "/Order/History";
-                    } else {
-                        swal("Infomation", result.message, "error"); // Hiển thị thông báo lỗi
-                    }
-                },
-
+            $.get('/Home/CreatePaymentUrl', function (result) {
+                var redirectUrl = result; // Nhận dữ liệu từ Action Method
+                var firstFiveChars = String(redirectUrl).substring(0, 4);
+                if (firstFiveChars === "http"){
+                    window.location.href = redirectUrl;
+                }else{
+                    swal("Infomation", result.message, "error");
+                }
+                // Sử dụng dữ liệu trong JavaScript
             });
         }
 

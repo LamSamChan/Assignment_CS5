@@ -8,7 +8,7 @@ using Assignment_CS5.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Assignment_CS5.Constants;
-using Assignment_CS5.Services;
+using NuGet.Protocol;
 
 namespace Assignment_CS5.Controllers;
 
@@ -33,23 +33,80 @@ public class HomeController : Controller
         _orderSvc = orderSvc;
         _orderDetailSvc = orderDetailSvc;
         _payPalService = payPalService;
+
     }
     public async Task<IActionResult> CreatePaymentUrl()
     {
         var cart = HttpContext.Session.GetString("cart");
         double total = Sum();
         List<ViewCart> model = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
+        for (int i = 0; i < model.Count; i++)
+        {
+            if (model[i].Menu.Status != _menuSvc.GetById(model[i].Menu.ProductId).Status)
+            {
+                var failMessage = $"{model[i].Menu.Name} is out of stock!";
+                return Json(new { message = failMessage });
+            }
+        }
         var url = await _payPalService.CreatePaymentUrl(model,total);
 
-        return Redirect(url);
-
+        return Content(url);
     }
 
     public IActionResult PaymentCallback()
     {
         var response = _payPalService.PaymentExecute(Request.Query);
+        var payRes = JsonConvert.DeserializeObject<PaymentResponse>(response.ToJson());
+        string cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusFullName);
+        var cart = HttpContext.Session.GetString("cart");
+        var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
+        var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
+        List<ViewCart> dataCart = JsonConvert.DeserializeObject<List<ViewCart>>(cart);
 
-        return Json(response);
+        if (cusEmail == null || cusEmail == "")  // đã có session
+        {
+            return BadRequest();
+        }
+        if (payRes.Success)
+        {
+            
+
+            double total = Sum();
+
+
+            var order = new Order()
+            {
+                OrderId = payRes.OrderId,
+                Status = OrderStatus.Received,
+                CustomerId = cusId,
+                Total = total,
+                Method = payRes.PaymentMethod,
+                OrderDate = DateTime.Now,
+                Note = "",
+            };
+
+            _orderSvc.AddOrder(order);
+            string orderId = order.OrderId;
+
+            for (int i = 0; i < dataCart.Count; i++)
+            {
+                OrderDetails details = new OrderDetails()
+                {
+                    OrderId = orderId,
+                    ProductId = dataCart[i].Menu.ProductId,
+                    Quantity = dataCart[i].Quantity,
+                    Total = dataCart[i].Menu.Price * dataCart[i].Quantity,
+                    Note = dataCart[i].Note,
+                };
+                //donhang.DonhangChitiets.Add(chitiet);
+                _orderDetailSvc.AddOrderDetail(details);
+            }
+            _payPalService.AddPaymentRespone(payRes);
+            HttpContext.Session.Remove("cart");
+
+            return RedirectToAction("History", "Order");
+        }
+        else return BadRequest();
     }
     public IActionResult Index()
     {
@@ -170,7 +227,7 @@ public class HomeController : Controller
         var cart = HttpContext.Session.GetString("cart");
         if (cart != "[]" || !String.IsNullOrEmpty(cart))
         {
-            #region DonHang
+            
             var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
             var cusId = JsonConvert.DeserializeObject<Customer>(cusContext).CustomerID;
 
@@ -186,21 +243,23 @@ public class HomeController : Controller
                 }
             }
             double total = Sum();
-            
+
 
             var order = new Order()
             {
+                OrderId = DateTime.Now.Ticks.ToString(),
                 Status = OrderStatus.Received,
                 CustomerId = cusId,
                 Total = total,
+                Method = "Cash",
                 OrderDate = DateTime.Now,
                 Note = "",
             };
 
             _orderSvc.AddOrder(order);
-            int orderId = order.OrderId;
-
-            #region Chitiet
+            string orderId = order.OrderId;
+           
+            
             for (int i = 0; i < dataCart.Count; i++)
             {
                 OrderDetails details = new OrderDetails()
@@ -215,8 +274,7 @@ public class HomeController : Controller
                 _orderDetailSvc.AddOrderDetail(details);
             }
 
-            #endregion
-            #endregion
+            
 
             HttpContext.Session.Remove("cart");
 

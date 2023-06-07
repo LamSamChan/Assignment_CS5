@@ -4,19 +4,39 @@ using Assignment_CS5.ViewModels;
 using PayPal.Core;
 using PayPal.v1.Payments;
 using Assignment_CS5.IServices;
+using Microsoft.EntityFrameworkCore;
+using Assignment_CS5.Database;
 
 namespace Assignment_CS5.Services
 {
     public class PayPalService : IPayPalService
     {
         private readonly IConfiguration _configuration;
+        private readonly MyDbContext _context;
+
         private const double ExchangeRate = 22_863.0;
 
-        public PayPalService(IConfiguration configuration)
+        public PayPalService(IConfiguration configuration, MyDbContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
+        public string AddPaymentRespone(PaymentResponse paymentResponse)
+        {
+            string status = "";
+            try
+            {
 
+                _context.Add(paymentResponse);
+                _context.SaveChanges();
+                status = paymentResponse.PaymentId;
+            }
+            catch
+            {
+                status = null;
+            }
+            return status;
+        }
         public static double ConvertVndToDollar(double vnd)
         {
             var total = Math.Round(vnd / ExchangeRate, 2);
@@ -110,21 +130,12 @@ namespace Assignment_CS5.Services
 
         }
 
-        public PaymentResponseModel PaymentExecute(IQueryCollection collections)
+        public PaymentResponse PaymentExecute(IQueryCollection collections)
         {
-            var response = new PaymentResponseModel();
+            var response = new PaymentResponse();
 
             foreach (var (key, value) in collections)
             {
-                if (!string.IsNullOrEmpty(key) && key.ToLower().Equals("order_description"))
-                {
-                    response.OrderDescription = value;
-                }
-
-                if (!string.IsNullOrEmpty(key) && key.ToLower().Equals("transaction_id"))
-                {
-                    response.TransactionId = value;
-                }
 
                 if (!string.IsNullOrEmpty(key) && key.ToLower().Equals("order_id"))
                 {

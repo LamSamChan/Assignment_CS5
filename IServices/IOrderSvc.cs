@@ -10,8 +10,8 @@ namespace Assignment_CS5.IServices
 
         public Order GetById(int Id);
 
-		public int AddOrder(Order order);
-		public int UpdateOrder(Order order);
+		public string AddOrder(Order order);
+		public string UpdateOrder(Order order);
 		public List<OrderDetails> GetOrderDetails(int id);
 
     }

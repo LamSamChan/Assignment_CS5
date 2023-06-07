@@ -35,11 +35,15 @@
                             <span class="text-danger" asp-validation-for="Total"></span>
                         </div>
                         <div class="col-md-12 mt-3">
+                            <input class="form-control bg-light text-dark" asp-for="Method" placeholder="Method" required readonly>
+                        </div>
+                        <div class="col-md-12 mt-3">
                             <select asp-for="Status" class="mt-0 bg-light text-dark" asp-items="Html.GetEnumSelectList<OrderStatus>()" required>
                                 <option value="" disabled selected>...Select status</option>
                             </select>
                             <span class="text-danger" asp-validation-for="Status"></span>
                         </div>
+                        
                         <div class="col-md-12 mt-3">
                             <textarea class="form-control" asp-for="Note" placeholder="Note"></textarea>
                         </div>

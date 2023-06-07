@@ -14,6 +14,8 @@ namespace Assignment_CS5.Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<PaymentResponse> PaymentResponses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
           modelBuilder.Entity<Menu>().ToTable("Menu");
@@ -21,6 +23,8 @@ namespace Assignment_CS5.Database
           modelBuilder.Entity<Order>().ToTable("Order");
           modelBuilder.Entity<OrderDetails>().ToTable("OrderDetails");
           modelBuilder.Entity<Customer>().ToTable("Customer");
+          modelBuilder.Entity<PaymentResponse>().ToTable("PaymentResponse");
+
         }
     }
 }

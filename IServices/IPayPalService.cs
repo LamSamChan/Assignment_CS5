@@ -6,6 +6,8 @@ namespace Assignment_CS5.IServices
     public interface IPayPalService
     {
         Task<string> CreatePaymentUrl(List<ViewCart> model, double total);
-        PaymentResponseModel PaymentExecute(IQueryCollection collections);
+        PaymentResponse PaymentExecute(IQueryCollection collections);
+        public string AddPaymentRespone(PaymentResponse paymentResponse);
+
     }
 }
