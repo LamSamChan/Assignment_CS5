@@ -26,7 +26,14 @@ builder.Services.AddSession(option =>
     option.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
-builder.Services.AddCors();
+builder.Services.AddCors( option => option.AddPolicy(
+        name:"FoodHut",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:44326");
+            policy.WithOrigins("https://www.sandbox.paypal.com");
+        }
+    ));
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -40,10 +47,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-app.UseCors(builder => builder
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+app.UseCors("FoodHut");
 app.UseRouting();
 app.UseAuthorization();
 

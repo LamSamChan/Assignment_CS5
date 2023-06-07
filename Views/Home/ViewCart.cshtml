@@ -77,22 +77,22 @@
         <div class="w-100 text-center">
                 <div  style="height:50px; width:30%; margin:auto;">
                 @{
-                    if (!String.IsNullOrEmpty(cusEmail))
+                    if(cart == "[]" || String.IsNullOrEmpty(cart))
                     {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderByPaypal(true);">Paypal</a>
+                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
+                        <span class="text-danger mt-2">Your cart is empty !</span>
+                    }
+                    else if (!String.IsNullOrEmpty(cusEmail))
+                    {
+                        <a id="order" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderCart(true);">Order confirmation</a>
+                        <a id="paypal" class="nav-link btn-outline-primary link-edit w-100 h-100 " href="javascript:orderByPaypal();">Paypal</a>
                     }
                     else if (!String.IsNullOrEmpty(emp))
                     {
                         <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
                         <span class="text-danger mt-2">Please log in to your customer account to place an order</span>
                     }
-                    else if(cart == "[]" || String.IsNullOrEmpty(cart))
-                    {
-                        <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
-                        <span class="text-danger mt-2">Your cart is empty !</span>
-                    }
-                    else
+                    else 
                     {
                         <a class="nav-link btn-outline-primary link-edit w-100 h-100 disabled">Order confirmation</a>
                         <span class="text-danger mt-2">You need to log in before placing an order</span>
@@ -104,6 +104,7 @@
 </div>
 
 <script>
+   
         function deleteCart(id) {
             $.ajax({
                 type: "POST",
@@ -117,6 +118,8 @@
 
                     if (result == "0") {
                         $("#cart-status").attr("class", "bi bi-basket3");
+                        $("#order").addClass("disabled");
+                        $("#paypal").addClass("disabled");
                     }
                 }
             });
@@ -195,12 +198,7 @@
         }
 
 
-        function orderByPaypal(flagLogin) {
-            if (!flagLogin) {
-                alert("Bạn cần đăng nhập để đặt hàng.");
-                return false;
-            }
-
+        function orderByPaypal() {
             $.ajax({
                 type: "POST",
                 url: "/Home/CreatePaymentUrl",
@@ -215,6 +213,8 @@
 
             });
         }
+
+
 
 
 

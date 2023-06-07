@@ -42,6 +42,7 @@ public class HomeController : Controller
         var url = await _payPalService.CreatePaymentUrl(model,total);
 
         return Redirect(url);
+
     }
 
     public IActionResult PaymentCallback()
@@ -155,6 +156,7 @@ public class HomeController : Controller
             total = Sum();
             return Ok(total);
         }
+        
         return BadRequest();
     }
 
@@ -166,7 +168,7 @@ public class HomeController : Controller
             return BadRequest();
         }
         var cart = HttpContext.Session.GetString("cart");
-        if (cart != "[]")
+        if (cart != "[]" || !String.IsNullOrEmpty(cart))
         {
             #region DonHang
             var cusContext = HttpContext.Session.GetString(SessionKey.Customer.CusContext);
