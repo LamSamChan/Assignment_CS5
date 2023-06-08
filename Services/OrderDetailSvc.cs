@@ -18,8 +18,8 @@ namespace Assignment_CS5.Services
 			try
 			{
 
-				_context.Add(orderDetails);
-				_context.SaveChanges();
+				_context.OrderDetails.Add(orderDetails);
+				 var a =_context.SaveChanges();
 				status = orderDetails.OrderDetailId;
 			}
 			catch

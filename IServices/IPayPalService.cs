@@ -8,6 +8,8 @@ namespace Assignment_CS5.IServices
         Task<string> CreatePaymentUrl(List<ViewCart> model, double total);
         PaymentResponse PaymentExecute(IQueryCollection collections);
         public string AddPaymentRespone(PaymentResponse paymentResponse);
+        public PaginationViewModel GetAll(string searchString, int page);
+
 
     }
 }

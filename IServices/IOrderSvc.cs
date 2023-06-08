@@ -12,7 +12,7 @@ namespace Assignment_CS5.IServices
 
 		public string AddOrder(Order order);
 		public string UpdateOrder(Order order);
-		public List<OrderDetails> GetOrderDetails(int id);
+		public List<OrderDetails> GetOrderDetails(string id);
 
     }
 }

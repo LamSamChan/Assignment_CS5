@@ -1,0 +1,89 @@
+﻿@model Assignment_CS5.ViewModels.PaginationViewModel
+
+<div style="margin-top:170px">
+    <div class="row m-5 justify-content-center">
+        <form class="w-50" asp-action="PaymentResponse" asp-controller="Order" method="get">
+            <div class="row w-100" style="height:50px;">
+                <div class="col-lg-8"><input class="w-100 h-100" type="text" name="searchString" placeholder="Enter a search keyword (PaymentId/Payer)" /></div>
+                <div class="col-lg-4"> <button type="submit" class="btn-outline-primary link-edit w-100 h-100">Search</button></div>
+            </div>
+        </form>
+    </div>
+    <div class="row m-5">
+
+        <table class="table text-light mt-5">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Order ID</th>
+                    <th>Method</th>
+                    <th>Payer ID</th>
+                    <th>Success</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PaymentResponse)
+                {
+                    <tr>
+                        <td>@item.PaymentId</td>
+                        <td>@item.OrderId</td>
+                        <td>@item.PaymentMethod</td>
+                        <td>@item.PayerId</td>
+                        <td><input type="checkbox" checked="@item.Success" disabled style="height: 20px; width: 20px;"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="row justify-content-center">
+        @{
+            int totalPages = Model.PaginationInfo.TotalPages;
+            int currentPage = Model.PaginationInfo.CurrentPage;
+            int displayPages = 5; // Số trang hiển thị
+            int halfDisplayPages = displayPages / 2;
+            int startPage = Math.Max(currentPage - halfDisplayPages, 1);
+            int endPage = Math.Min(startPage + displayPages - 1, totalPages);
+
+            if (endPage - startPage + 1 < displayPages)
+            {
+                startPage = Math.Max(endPage - displayPages + 1, 1);
+            }
+        }
+
+        <div class="pagination">
+            @if (currentPage > 1)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {searchString =Model.PaginationInfo.SearchKeyword, page = 1 })">First</a>
+            }
+
+            @if (startPage > 1)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new { searchString =Model.PaginationInfo.SearchKeyword,page = startPage - 1 })">...</a>
+            }
+
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                if (i == currentPage)
+                {
+                    <span class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2 text-light">@i</span>
+                }
+                else
+                {
+                    <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {searchString =Model.PaginationInfo.SearchKeyword, page = i })">@i</a>
+                }
+            }
+
+            @if (endPage < totalPages)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {searchString =Model.PaginationInfo.SearchKeyword, page = endPage + 1 })">...</a>
+            }
+
+            @if (currentPage < totalPages)
+            {
+                <a class="ml-2 mr-2 p-2 btn-outline-danger text-center rounded rounded-2" href="@Url.Action("Index", new {searchString =Model.PaginationInfo.SearchKeyword, page = totalPages })">Last</a>
+            }
+        </div>
+    </div>
+</div>

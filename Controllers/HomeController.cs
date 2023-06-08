@@ -104,6 +104,8 @@ public class HomeController : Controller
             _payPalService.AddPaymentRespone(payRes);
             HttpContext.Session.Remove("cart");
 
+            TempData["SuccessMessage"] = "Successful payment!";
+
             return RedirectToAction("History", "Order");
         }
         else return BadRequest();
@@ -270,14 +272,11 @@ public class HomeController : Controller
                     Total = dataCart[i].Menu.Price * dataCart[i].Quantity,
                     Note = dataCart[i].Note,
                 };
-                //donhang.DonhangChitiets.Add(chitiet);
                 _orderDetailSvc.AddOrderDetail(details);
             }
 
-            
-
             HttpContext.Session.Remove("cart");
-
+            TempData["SuccessMessage"] = "Successful ordering!";
             return Json(new { success = true });
         }
         return BadRequest();

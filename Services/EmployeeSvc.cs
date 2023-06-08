@@ -5,6 +5,7 @@ using Assignment_CS5.Models;
 using Assignment_CS5.ViewModels;
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using static Assignment_CS5.Constants.SessionKey;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Assignment_CS5.Services
@@ -19,7 +20,7 @@ namespace Assignment_CS5.Services
             this._context = context;
             this._helper = encodeHelper;
         }
-        public int AddEmployee(Employee employee)
+        public int AddEmployee(Models.Employee employee)
         {
             int status = 0;
             try
@@ -91,7 +92,7 @@ namespace Assignment_CS5.Services
         }
 
 
-        public Employee GetById(int Id)
+        public Models.Employee GetById(int Id)
         {
             try
             {
@@ -99,12 +100,12 @@ namespace Assignment_CS5.Services
             }
             catch (System.Exception ex)
             {
-                return new Employee();
+                return new Models.Employee();
             }
         }
 
 
-        public int UpdateEmployee(Employee employee)
+        public int UpdateEmployee(Models.Employee employee)
         {
             int status = 0;
             try
@@ -145,7 +146,7 @@ namespace Assignment_CS5.Services
             return status;
         }
 
-		public Employee Login(ViewLogin viewLogin)
+		public Models.Employee Login(ViewLogin viewLogin)
         {
             var login = _context.Employees.Where(e => e.UserName.Equals(viewLogin.UserName) 
             && e.Password.Equals(_helper.Encode(viewLogin.Password))).FirstOrDefault();
@@ -153,10 +154,31 @@ namespace Assignment_CS5.Services
             return login;
         }
 
-        public int IsFieldExist(Employee employee)
+        public int IsFieldExist(Models.Employee employee)
         {
+            string phoneNumber = null;
+
+            if (employee.PhoneNumber.StartsWith("+84"))
+            {
+                phoneNumber = employee.PhoneNumber.Substring(3);
+            }
+            else if (employee.PhoneNumber.StartsWith("0"))
+            {
+                phoneNumber = employee.PhoneNumber.Substring(1);
+            }
+
             foreach (var emp in _context.Employees.ToList())
             {
+                string existPhoneNumber = null;
+                if (emp.PhoneNumber.StartsWith("+84"))
+                {
+                    existPhoneNumber = emp.PhoneNumber.Substring(3);
+                }
+                else if (emp.PhoneNumber.StartsWith("0"))
+                {
+                    existPhoneNumber = emp.PhoneNumber.Substring(1);
+                }
+
                 if (employee.UserName == emp.UserName)
                 {
                     return -1;
@@ -165,7 +187,7 @@ namespace Assignment_CS5.Services
                 {
                     return -2;
                 }
-                else if (employee.PhoneNumber == emp.PhoneNumber)
+                else if (phoneNumber == existPhoneNumber)
                 {
                     return -3;
                 }

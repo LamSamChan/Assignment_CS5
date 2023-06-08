@@ -43,7 +43,7 @@
                         <tr>
                             <td><a class="nav-link link-dark link-edit m-0" asp-action="Edit" asp-controller="Order" asp-route-Id="@item.OrderId">@item.OrderId</a></td>
                             <td>@item.Customer.FullName</td>
-                            <td>@item.OrderDate.ToString("hh:mm:ss dd/MM/yyyy")</td>
+                            <td>@item.OrderDate.ToString("HH:mm:ss dd/MM/yyyy")</td>
                             <td>@String.Format("{0:0,0 vnđ}", item.Total)</td>
                             <td>@item.Method</td>
                             <td>@item.Status</td>

@@ -13,6 +13,6 @@ public class PaymentResponse
     public string PaymentMethod { get; set; }
     public string PayerId { get; set; }
     public bool Success { get; set; }
-    public Order Order { get; set; }
+    public Order? Order { get; set; }
 
 }

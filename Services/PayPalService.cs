@@ -21,6 +21,38 @@ namespace Assignment_CS5.Services
             _configuration = configuration;
             _context = context;
         }
+        public PaginationViewModel GetAll(string searchString, int page)
+        {
+            var list = _context.PaymentResponses.ToList();
+            try
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    list = list.Where(p => p.PaymentId.ToLower().Contains(searchString.ToLower()) || p.PayerId.ToLower().Contains(searchString.ToLower())).ToList();
+                }
+                int pageSize = 5;
+                var pagedProducts = list.Skip((page - 1) * pageSize).Take(pageSize); // Lấy các sản phẩm cho trang hiện tại
+
+                var viewModel = new PaginationViewModel
+                {
+                    PaymentResponse = pagedProducts,
+                    PaginationInfo = new PaginationInfo
+                    {
+                        SearchKeyword = searchString,
+                        CurrentPage = page,
+                        PageSize = pageSize,
+                        TotalItems = list.Count()
+                    }
+                };
+                return viewModel;
+
+            }
+            catch (System.Exception ex)
+            {
+
+                return new PaginationViewModel();
+            }
+        }
         public string AddPaymentRespone(PaymentResponse paymentResponse)
         {
             string status = "";

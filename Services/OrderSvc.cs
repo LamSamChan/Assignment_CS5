@@ -202,12 +202,12 @@ namespace Assignment_CS5.Services
 			return status;
 		}
 
-		public List<OrderDetails> GetOrderDetails(int id)
+		public List<OrderDetails> GetOrderDetails(string id)
 		{
 			List<OrderDetails> details = new List<OrderDetails>();
 			foreach (var item in _context.OrderDetails.Include(x => x.Menu).Include(x => x.Order).ToList())
 			{
-				if (item.OrderId == id.ToString())
+				if (item.OrderId == id)
 				{
 					details.Add(item);
 				}

@@ -12,6 +12,7 @@ namespace Assignment_CS5.Controllers
     {
         private readonly MyDbContext _context;
         private readonly IOrderSvc _service;
+        private readonly IPayPalService _ppService;
         private readonly ICustomerSvc _cusService;
         private int isAuthenticate;
         public int IsAuthenticate
@@ -37,11 +38,13 @@ namespace Assignment_CS5.Controllers
             }
             set { this.isAuthenticate = value; }
         }
-        public OrderController(MyDbContext context, IOrderSvc service, ICustomerSvc cusService)
+        public OrderController(MyDbContext context, IOrderSvc service, ICustomerSvc cusService, IPayPalService ppService)
         {
             this._context = context;
             this._service = service;
             this._cusService = cusService;
+            this._ppService = ppService;
+
         }
         public IActionResult Index(string type, string searchString, DateTime searchDate, int page)
         {
@@ -164,7 +167,7 @@ namespace Assignment_CS5.Controllers
             }
         }
 
-        public IActionResult Details(int Id)
+        public IActionResult Details(string Id)
         {
             var cusEmail = HttpContext.Session.GetString(SessionKey.Customer.CusEmail);
 
@@ -173,6 +176,20 @@ namespace Assignment_CS5.Controllers
                 ViewBag.SHClass = "d-none";
                 ViewBag.bgblack = "bg-black";
                 return View(_service.GetOrderDetails(Id));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult PaymentResponse(string searchString, int page)
+        {
+            if (IsAuthenticate == 1 || IsAuthenticate == 2)
+            {
+                ViewBag.SHClass = "d-none";
+                ViewBag.bgblack = "bg-black";
+                return View(_ppService.GetAll(searchString, page));
             }
             else
             {

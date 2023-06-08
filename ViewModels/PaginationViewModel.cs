@@ -9,7 +9,9 @@ namespace Assignment_CS5.ViewModels
 		public IEnumerable<Order> Orders { get; set; }
 		public IEnumerable<OrderDetails> OrderDetails { get; set; }
 		public IEnumerable<Customer> Customers { get; set; }
-		public PaginationInfo PaginationInfo { get; set; }
+        public IEnumerable<PaymentResponse> PaymentResponse { get; set; }
+
+        public PaginationInfo PaginationInfo { get; set; }
 
     }
     public class PaginationInfo
