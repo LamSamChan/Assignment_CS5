@@ -156,7 +156,7 @@ namespace Assignment_CS5.Services
             }
         }
 
-        public Order GetById(int Id)
+        public Order GetById(string Id)
 		{
 			try
 			{

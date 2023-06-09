@@ -8,7 +8,7 @@ namespace Assignment_CS5.IServices
 		public PaginationViewModel GetAll(string type,string searchString,DateTime searchDate, int page);
         public PaginationViewModel GetAllForCus(int cusId,string searchString, DateTime searchDate, int page);
 
-        public Order GetById(int Id);
+        public Order GetById(string Id);
 
 		public string AddOrder(Order order);
 		public string UpdateOrder(Order order);

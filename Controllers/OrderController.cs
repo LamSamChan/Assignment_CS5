@@ -151,7 +151,7 @@ namespace Assignment_CS5.Controllers
             }
         }
 
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(string Id)
         {
             if (IsAuthenticate == 1 || IsAuthenticate ==2)
             {
